@@ -92,12 +92,20 @@
       show(qs('#previewContainer'));
       hide(qs('#cameraContainer'));
       detectIngredients(imageData);
+      // Reset the input so the same file can be uploaded again
+      e.target.value = '';
     };
     reader.readAsDataURL(file);
   }
 
   function drawBoundingBoxes(boxes, imgElement){
-    if (!boxes || !boxes.length) return;
+    if (!boxes || !boxes.length) {
+      // If no boxes, just remove any existing canvas overlay
+      const container = qs('#previewContainer');
+      const oldCanvas = container.querySelector('canvas');
+      if (oldCanvas) oldCanvas.remove();
+      return;
+    }
     
     const container = qs('#previewContainer');
     // Remove any existing canvas
@@ -411,6 +419,22 @@
         saveBasket();
         updateRecommendationsFromBasket();
         toast('Cleared ingredient list', 'info');
+      });
+    }
+
+    // Clear preview button
+    const clearPreviewBtn = qs('#clearPreviewBtn');
+    if (clearPreviewBtn){
+      clearPreviewBtn.addEventListener('click', () => {
+        hide(qs('#previewContainer'));
+        hide(qs('#detectionInfo'));
+        hide(qs('#ingredientsCard'));
+        qs('#preview').src = '';
+        // Remove any canvas overlay
+        const container = qs('#previewContainer');
+        const oldCanvas = container.querySelector('canvas');
+        if (oldCanvas) oldCanvas.remove();
+        toast('Cleared preview image', 'info');
       });
     }
 

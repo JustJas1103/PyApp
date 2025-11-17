@@ -12,7 +12,12 @@
                     <video id="videoElement" autoplay playsinline class="w-100 rounded-3 bg-dark ratio ratio-4x3"></video>
                 </div>
                 <div id="previewContainer" class="mb-3 d-none">
-                    <img id="preview" class="img-fluid rounded-3 shadow-sm" alt="Preview" />
+                    <div class="position-relative">
+                        <img id="preview" class="img-fluid rounded-3 shadow-sm" alt="Preview" />
+                        <button id="clearPreviewBtn" class="btn btn-sm btn-danger position-absolute" style="top: 10px; right: 10px;" title="Clear image">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="d-flex flex-wrap gap-2">
