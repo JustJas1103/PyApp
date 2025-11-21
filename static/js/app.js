@@ -93,7 +93,13 @@
   }
 
   function drawBoundingBoxes(boxes, imgElement){
-    if (!boxes || !boxes.length) return;
+    if (!boxes || !boxes.length) {
+      // If no boxes, just remove any existing canvas overlay
+      const container = qs('#previewContainer');
+      const oldCanvas = container.querySelector('canvas');
+      if (oldCanvas) oldCanvas.remove();
+      return;
+    }
     
     const container = qs('#previewContainer');
     // Remove any existing canvas
