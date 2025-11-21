@@ -14,7 +14,13 @@ self.addEventListener('install', event => {
     caches.open(CACHE_NAME)
       .then(cache => {
         console.log('Opened cache');
-        return cache.addAll(urlsToCache.map(url => new Request(url, {cache: 'no-cache'})));
+        // Cache files individually to prevent one failure from blocking install
+        return Promise.allSettled(
+          urlsToCache.map(url => 
+            cache.add(new Request(url, {cache: 'no-cache'}))
+              .catch(err => console.log('Failed to cache:', url, err))
+          )
+        );
       })
       .catch(err => console.log('Cache install error:', err))
   );
@@ -23,41 +29,35 @@ self.addEventListener('install', event => {
 
 // Fetch event - serve from cache, fallback to network
 self.addEventListener('fetch', event => {
-  // Skip caching for API calls
+  // Skip caching for API calls and admin routes
   if (event.request.url.includes('/detect') || 
       event.request.url.includes('/recommend') ||
+      event.request.url.includes('/admin') ||
       event.request.url.includes('roboflow.com')) {
     return event.respondWith(fetch(event.request));
   }
 
   event.respondWith(
-    caches.match(event.request)
+    fetch(event.request)
       .then(response => {
-        // Cache hit - return response
-        if (response) {
-          return response;
-        }
-        return fetch(event.request).then(response => {
-          // Don't cache non-successful responses
-          if (!response || response.status !== 200 || response.type === 'error') {
-            return response;
-          }
-          
-          // Clone the response
+        // Clone and cache successful responses
+        if (response && response.status === 200) {
           const responseToCache = response.clone();
-          
-          caches.open(CACHE_NAME)
-            .then(cache => {
-              cache.put(event.request, responseToCache);
-            });
-          
-          return response;
-        });
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseToCache));
+        }
+        return response;
       })
       .catch(() => {
-        // Offline fallback
-        return new Response('App is offline. Please check your connection.', {
-          headers: { 'Content-Type': 'text/plain' }
+        // Network failed, try cache as fallback
+        return caches.match(event.request).then(response => {
+          if (response) {
+            return response;
+          }
+          // No cache found either
+          return new Response('Offline - content not available', {
+            status: 503,
+            headers: { 'Content-Type': 'text/plain' }
+          });
         });
       })
   );
