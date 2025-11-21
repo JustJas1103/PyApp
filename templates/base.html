@@ -35,13 +35,22 @@
           <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#howItWorksModal">How it works</a></li>
           <li class="nav-item"><a class="nav-link" href="#recipes">Recipes</a></li>
           <li class="nav-item">
-            <button id="installBtn" class="btn btn-success btn-sm" style="display: none;">
+            <button id="installBtn" class="btn btn-outline-success btn-sm" style="display: none;">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16" style="margin-bottom: 2px;">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+              </svg>
+              Install Shortcut
+            </button>
+          </li>
+          <li class="nav-item">
+            <a href="#" id="downloadApkBtn" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#apkDownloadModal">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16" style="margin-bottom: 2px;">
                 <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
                 <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
               </svg>
-              Install App
-            </button>
+              Download APK
+            </a>
           </li>
         </ul>
       </div>
@@ -120,6 +129,41 @@
       deferredPrompt = null;
     });
   </script>
+
+  <!-- APK Download Modal -->
+  <div class="modal fade" id="apkDownloadModal" tabindex="-1" aria-labelledby="apkDownloadLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="apkDownloadLabel">📱 Download Android APK</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>To install the Android APK on your phone:</p>
+          <ol class="small">
+            <li>Upload your APK to GitHub Releases or a file hosting service</li>
+            <li>Share the download link with users</li>
+            <li>Enable "Install from Unknown Sources" on Android</li>
+            <li>Open the APK file to install</li>
+          </ol>
+          <hr>
+          <p class="mb-2"><strong>Current Status:</strong></p>
+          <div class="alert alert-info mb-0">
+            <small>
+              APK generated using PWA Builder.<br>
+              To add a direct download link, upload your APK file to GitHub Releases and update this modal with the download URL.
+            </small>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <a href="https://github.com/JustJas1103/PyApp/releases" target="_blank" class="btn btn-primary btn-sm">
+            Go to GitHub Releases
+          </a>
+          <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- How it works Modal -->
   <div class="modal fade" id="howItWorksModal" tabindex="-1" aria-labelledby="howItWorksLabel" aria-hidden="true">
