@@ -9,3 +9,7 @@ CONFIDENCE_THRESHOLD = 0.3  # 50% - Only show detections above this confidence l
 
 # Flask Configuration
 UPLOAD_FOLDER = 'static/uploads'
+SECRET_KEY = os.getenv("SECRET_KEY", "change-this-to-a-random-secret-key-in-production")
+
+# Admin Configuration
+ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "admin123")  # Change this in production!

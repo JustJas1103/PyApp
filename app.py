@@ -1,15 +1,27 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, session, redirect, url_for, flash
 import requests
 import os
 import json
 import base64
 from werkzeug.utils import secure_filename
-from config import ROBOFLOW_API_URL, ROBOFLOW_API_KEY, CONFIDENCE_THRESHOLD, UPLOAD_FOLDER
+from functools import wraps
+from config import ROBOFLOW_API_URL, ROBOFLOW_API_KEY, CONFIDENCE_THRESHOLD, UPLOAD_FOLDER, SECRET_KEY, ADMIN_PASSWORD
 
 app = Flask(__name__)
+app.secret_key = SECRET_KEY
 
 # Absolute path for uploads on disk
 UPLOAD_DIR = os.path.join(app.root_path, UPLOAD_FOLDER)
+
+# Admin authentication decorator
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get('admin_logged_in'):
+            flash('Please log in to access the admin panel.', 'warning')
+            return redirect(url_for('admin_login'))
+        return f(*args, **kwargs)
+    return decorated_function
 
 
 def match_recipes(available_ingredients: list):
@@ -235,6 +247,84 @@ def recommend():
     except Exception as e:
         import traceback
         return jsonify({"success": False, "error": str(e), "trace": traceback.format_exc()}), 500
+
+
+# Admin routes
+@app.route('/admin/login', methods=['GET', 'POST'])
+def admin_login():
+    if request.method == 'POST':
+        password = request.form.get('password')
+        if password == ADMIN_PASSWORD:
+            session['admin_logged_in'] = True
+            flash('Successfully logged in!', 'success')
+            return redirect(url_for('admin_dashboard'))
+        else:
+            flash('Invalid password. Please try again.', 'danger')
+    return render_template('admin_login.html')
+
+@app.route('/admin/logout')
+def admin_logout():
+    session.pop('admin_logged_in', None)
+    flash('Logged out successfully.', 'info')
+    return redirect(url_for('index'))
+
+@app.route('/admin')
+@admin_required
+def admin_dashboard():
+    return render_template('admin_dashboard.html', recipes=RECIPES)
+
+@app.route('/admin/recipe/add', methods=['POST'])
+@admin_required
+def admin_add_recipe():
+    try:
+        data = request.get_json()
+        # Validate required fields
+        required = ['name', 'time', 'servings', 'difficulty', 'image', 'ingredients', 'instructions']
+        if not all(field in data for field in required):
+            return jsonify({"success": False, "error": "Missing required fields"}), 400
+        
+        RECIPES.append(data)
+        save_recipes()
+        return jsonify({"success": True, "message": "Recipe added successfully"})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+@app.route('/admin/recipe/edit/<int:index>', methods=['POST'])
+@admin_required
+def admin_edit_recipe(index):
+    try:
+        if index < 0 or index >= len(RECIPES):
+            return jsonify({"success": False, "error": "Recipe not found"}), 404
+        
+        data = request.get_json()
+        RECIPES[index] = data
+        save_recipes()
+        return jsonify({"success": True, "message": "Recipe updated successfully"})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+@app.route('/admin/recipe/delete/<int:index>', methods=['DELETE'])
+@admin_required
+def admin_delete_recipe(index):
+    try:
+        if index < 0 or index >= len(RECIPES):
+            return jsonify({"success": False, "error": "Recipe not found"}), 404
+        
+        deleted = RECIPES.pop(index)
+        save_recipes()
+        return jsonify({"success": True, "message": f"Recipe '{deleted['name']}' deleted successfully"})
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+def save_recipes():
+    """Save recipes to JSON file"""
+    try:
+        with open('recipes.json', 'w', encoding='utf-8') as f:
+            json.dump(RECIPES, f, indent=2, ensure_ascii=False)
+        return True
+    except Exception as e:
+        print(f"Error saving recipes: {e}")
+        return False
 
 
 if __name__ == '__main__':
