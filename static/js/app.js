@@ -403,6 +403,22 @@
       });
     }
 
+    // Clear preview button
+    const clearPreviewBtn = qs('#clearPreviewBtn');
+    if (clearPreviewBtn){
+      clearPreviewBtn.addEventListener('click', () => {
+        hide(qs('#previewContainer'));
+        hide(qs('#detectionInfo'));
+        hide(qs('#ingredientsCard'));
+        qs('#preview').src = '';
+        // Remove any canvas overlay
+        const container = qs('#previewContainer');
+        const oldCanvas = container.querySelector('canvas');
+        if (oldCanvas) oldCanvas.remove();
+        toast('Cleared preview image', 'info');
+      });
+    }
+
     // Pagination controls
     const prevBtn = qs('#prevPageBtn');
     const nextBtn = qs('#nextPageBtn');
