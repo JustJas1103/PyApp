@@ -364,6 +364,20 @@
     }
   }
 
+  // Cleanup on page unload/close
+  window.addEventListener('beforeunload', () => {
+    if (videoStream) {
+      videoStream.getTracks().forEach(t => t.stop());
+    }
+  });
+
+  // Handle visibility changes (app going to background)
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden && videoStream) {
+      stopCamera();
+    }
+  });
+
   // Wire up events
   window.addEventListener('DOMContentLoaded', () => {
     // Load basket
