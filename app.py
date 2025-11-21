@@ -107,20 +107,13 @@ def detect():
         files = {
             "file": (filename, image_data, content_type)
         }
-        print(f"Sending to Roboflow: {ROBOFLOW_API_URL}")
-        print(f"File: {filename}, Size: {len(image_data)} bytes")
-        print(f"Using confidence threshold: {CONFIDENCE_THRESHOLD*100:.1f}%")
-        
         try:
             response = requests.post(
                 f"{ROBOFLOW_API_URL}?api_key={ROBOFLOW_API_KEY}&confidence=1&overlap=30",
                 files=files,
                 timeout=30
             )
-            print(f"Response status code: {response.status_code}")
-            
             if response.status_code != 200:
-                print(f"Error response: {response.text}")
                 return jsonify({
                     "success": False,
                     "error": f"Roboflow API returned status {response.status_code}: {response.text}"
@@ -128,35 +121,21 @@ def detect():
             
             result = response.json()
         except requests.exceptions.RequestException as e:
-            print(f"Request error: {str(e)}")
             return jsonify({
                 "success": False,
                 "error": f"Failed to connect to Roboflow: {str(e)}"
             }), 500
         except json.JSONDecodeError as e:
-            print(f"JSON decode error: {str(e)}")
-            print(f"Response text: {response.text}")
             return jsonify({
                 "success": False,
                 "error": f"Invalid JSON response from Roboflow: {str(e)}"
             }), 500
         
-        # Debug: Log the raw response
-        print("="*50)
-        print("Roboflow API Response:")
-        print(json.dumps(result, indent=2))
-        print("="*50)
-
-    # Step 3 & 4: Extract ingredients (filter by confidence threshold, keep only highest confidence per class)
+        # Extract ingredients (filter by confidence threshold, keep only highest confidence per class)
         detected_ingredients = []
         raw_detections = []
         bounding_boxes = []
         best_detections = {} 
-        
-        # Check if predictions exist
-        print(f"Predictions in response: {'predictions' in result}")
-        if "predictions" in result:
-            print(f"Number of predictions: {len(result['predictions'])}")
         
         if "predictions" in result:
             for pred in result["predictions"]:
@@ -165,10 +144,7 @@ def detect():
                 
                 # Skip detections below threshold
                 if confidence <= CONFIDENCE_THRESHOLD:
-                    print(f"Skipping {ingredient_class} with confidence {confidence*100:.1f}% (below threshold: {CONFIDENCE_THRESHOLD*100:.1f}%)")
                     continue
-                
-                print(f"Detection: {ingredient_class} with confidence {confidence*100:.1f}%")
                 
                 # Keep only the highest confidence detection for each class
                 if ingredient_class not in best_detections or confidence > best_detections[ingredient_class]["confidence"]:
@@ -206,12 +182,8 @@ def detect():
                         "height": detection["bbox"]["height"]
                     })
 
-        # Step 5 & 6: Build recipe matches for this image's detections
+        # Build recipe matches for this image's detections
         matched_recipes = match_recipes(detected_ingredients)
-
-        print(f"Final detected ingredients: {detected_ingredients}")
-        print(f"Total raw detections: {len(raw_detections)}")
-        print(f"Total bounding boxes: {len(bounding_boxes)}")
 
         # Build URL path (relative to static) regardless of disk path
         image_url = f"{UPLOAD_FOLDER}/{filename}".replace('\\', '/') if filename else None

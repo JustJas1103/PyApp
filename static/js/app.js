@@ -4,13 +4,10 @@
   const qsa = (sel) => Array.from(document.querySelectorAll(sel));
 
   let videoStream = null;
-  let capturedImageData = null;
   const basket = new Set();
   const LS_KEY = 'recipeAssistant.basket';
-  // Confidence threshold is now server-controlled; no client slider.
   function saveBasket(){ try{ localStorage.setItem(LS_KEY, JSON.stringify(Array.from(basket))); }catch(e){} }
   function loadBasket(){ try{ const arr = JSON.parse(localStorage.getItem(LS_KEY)||'[]'); if(Array.isArray(arr)) arr.forEach(i=> basket.add(String(i).toLowerCase())); }catch(e){} }
-  // Removed threshold persistence: handled on server
   
   // Pagination state
   let allRecipes = [];
@@ -74,12 +71,11 @@
     canvas.height = video.videoHeight || 480;
     const ctx = canvas.getContext('2d');
     ctx.drawImage(video, 0, 0);
-    capturedImageData = canvas.toDataURL('image/jpeg');
-    const previewImg = qs('#preview');
-    previewImg.src = capturedImageData;
+    const imageData = canvas.toDataURL('image/jpeg');
+    qs('#preview').src = imageData;
     show(qs('#previewContainer'));
     hide(qs('#cameraContainer'));
-    detectIngredients(capturedImageData);
+    detectIngredients(imageData);
   }
 
   function onUploadChange(e){
@@ -92,20 +88,12 @@
       show(qs('#previewContainer'));
       hide(qs('#cameraContainer'));
       detectIngredients(imageData);
-      // Reset the input so the same file can be uploaded again
-      e.target.value = '';
     };
     reader.readAsDataURL(file);
   }
 
   function drawBoundingBoxes(boxes, imgElement){
-    if (!boxes || !boxes.length) {
-      // If no boxes, just remove any existing canvas overlay
-      const container = qs('#previewContainer');
-      const oldCanvas = container.querySelector('canvas');
-      if (oldCanvas) oldCanvas.remove();
-      return;
-    }
+    if (!boxes || !boxes.length) return;
     
     const container = qs('#previewContainer');
     // Remove any existing canvas
@@ -336,13 +324,6 @@
       const data = await res.json();
       if (!data.success){ throw new Error(data.error || 'Unknown error'); }
       
-      // Debug: Log the response
-      console.log('=== Roboflow Detection Response ===');
-      console.log('Raw detections:', data.raw_detections);
-      console.log('Detected ingredients:', data.detected_ingredients);
-      console.log('Bounding boxes:', data.bounding_boxes);
-      console.log('Full Roboflow response:', data.roboflow_response);
-      
       if (data.raw_detections && data.raw_detections.length) renderRawDetections(data.raw_detections);
       const newlyDetected = (data.detected_ingredients || []).map(i => (i||'').toLowerCase());
       renderIngredients(newlyDetected);
@@ -419,22 +400,6 @@
         saveBasket();
         updateRecommendationsFromBasket();
         toast('Cleared ingredient list', 'info');
-      });
-    }
-
-    // Clear preview button
-    const clearPreviewBtn = qs('#clearPreviewBtn');
-    if (clearPreviewBtn){
-      clearPreviewBtn.addEventListener('click', () => {
-        hide(qs('#previewContainer'));
-        hide(qs('#detectionInfo'));
-        hide(qs('#ingredientsCard'));
-        qs('#preview').src = '';
-        // Remove any canvas overlay
-        const container = qs('#previewContainer');
-        const oldCanvas = container.querySelector('canvas');
-        if (oldCanvas) oldCanvas.remove();
-        toast('Cleared preview image', 'info');
       });
     }
 
