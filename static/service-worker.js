@@ -1,69 +1,34 @@
-const CACHE_NAME = 'recipe-assistant-v1';
-const urlsToCache = [
-  '/',
-  '/static/css/app.css',
-  '/static/js/app.js',
-  'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css',
-  'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js',
-  'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap'
-];
+const CACHE_NAME = 'recipe-assistant-v3';
 
-// Install event - cache resources
+// Install event - skip caching on install to prevent blocking
 self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => {
-        console.log('Opened cache');
-        // Cache files individually to prevent one failure from blocking install
-        return Promise.allSettled(
-          urlsToCache.map(url => 
-            cache.add(new Request(url, {cache: 'no-cache'}))
-              .catch(err => console.log('Failed to cache:', url, err))
-          )
-        );
-      })
-      .catch(err => console.log('Cache install error:', err))
-  );
+  console.log('Service worker installing...');
   self.skipWaiting();
 });
 
-// Fetch event - serve from cache, fallback to network
+// Fetch event - always fetch from network, minimal caching
 self.addEventListener('fetch', event => {
-  // Skip caching for API calls and admin routes
-  if (event.request.url.includes('/detect') || 
-      event.request.url.includes('/recommend') ||
-      event.request.url.includes('/admin') ||
-      event.request.url.includes('roboflow.com')) {
-    return event.respondWith(fetch(event.request));
-  }
-
   event.respondWith(
     fetch(event.request)
       .then(response => {
-        // Clone and cache successful responses
-        if (response && response.status === 200) {
+        // Only cache static assets on successful fetch
+        if (response && response.status === 200 && 
+            (event.request.url.includes('/static/') || 
+             event.request.url.includes('bootstrap') ||
+             event.request.url.includes('fonts.googleapis'))) {
           const responseToCache = response.clone();
           caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseToCache));
         }
         return response;
       })
       .catch(() => {
-        // Network failed, try cache as fallback
-        return caches.match(event.request).then(response => {
-          if (response) {
-            return response;
-          }
-          // No cache found either
-          return new Response('Offline - content not available', {
-            status: 503,
-            headers: { 'Content-Type': 'text/plain' }
-          });
-        });
+        // Network failed, try cache only for static assets
+        return caches.match(event.request);
       })
   );
 });
 
-// Activate event - cleanup old caches
+// Activate event - cleanup old caches and take control immediately
 self.addEventListener('activate', event => {
   const cacheWhitelist = [CACHE_NAME];
   event.waitUntil(
@@ -71,11 +36,14 @@ self.addEventListener('activate', event => {
       return Promise.all(
         cacheNames.map(cacheName => {
           if (cacheWhitelist.indexOf(cacheName) === -1) {
+            console.log('Deleting old cache:', cacheName);
             return caches.delete(cacheName);
           }
         })
       );
+    }).then(() => {
+      console.log('Service worker activated and claiming clients');
+      return self.clients.claim();
     })
   );
-  return self.clients.claim();
 });
