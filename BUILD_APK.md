@@ -2,22 +2,25 @@
 
 Your Flask app can be packaged as an Android APK using several methods. Here are the recommended approaches:
 
-## ✅ Used: AppsGeyser (Completed)
+## ✅ Used: PWA Builder (Completed)
 
 **App URL**: https://pyapp-vilo.onrender.com/  
-**Status**: APK generated successfully using AppsGeyser
+**Status**: APK generated successfully using PWA Builder
 
 ### Steps Used:
-1. Visited https://appsgeyser.com/
-2. Selected "Website" option
-3. Entered app URL: `https://pyapp-vilo.onrender.com/`
-4. Configured app name: `AI Recipe Assistant`
-5. Downloaded APK file
-6. Ready to install on Android devices
+1. Visited https://www.pwabuilder.com/
+2. Entered app URL: `https://pyapp-vilo.onrender.com/`
+3. Clicked "Start" to analyze the app
+4. Selected "Package For Stores" → "Android"
+5. Configured package ID: `com.justjas.recipeai`
+6. Downloaded APK/AAB file
+7. Ready to install on Android devices
+
+**Benefits**: Proper camera permissions, better performance, professional quality
 
 ---
 
-## Option 1: PWA Builder (Alternative - Better Quality)
+## Option 1: PWA Builder (Easiest - No Coding Required)
 
 1. **Deploy your app** to a public HTTPS URL (Render, Heroku, etc.)
    - Your app MUST be accessible via HTTPS
