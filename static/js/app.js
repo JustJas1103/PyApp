@@ -392,7 +392,7 @@
     qs('#captureBtn').addEventListener('click', capturePhoto);
     qs('#imageUpload').addEventListener('change', onUploadChange);
 
-    // Drag and Drop
+    // Drag and Drop (desktop only)
     const drop = qs('#dropZone');
     if (drop){
       ;['dragenter','dragover'].forEach(evt => drop.addEventListener(evt, (e)=>{ e.preventDefault(); e.stopPropagation(); drop.classList.add('dragover'); }));
