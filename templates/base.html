@@ -128,6 +128,18 @@
       }
       deferredPrompt = null;
     });
+
+    // Hide Download APK button when running as installed app (standalone mode)
+    const downloadApkBtn = document.getElementById('downloadApkBtn');
+    if (downloadApkBtn) {
+      const isStandalone = window.matchMedia('(display-mode: standalone)').matches 
+        || window.navigator.standalone 
+        || document.referrer.includes('android-app://');
+      
+      if (isStandalone) {
+        downloadApkBtn.style.display = 'none';
+      }
+    }
   </script>
 
   <!-- APK Download Modal -->
