@@ -67,6 +67,11 @@ def load_recipes():
 
 RECIPES = load_recipes()
 
+@app.route('/.well-known/assetlinks.json')
+def assetlinks():
+    """Serve Digital Asset Links file for Android app verification"""
+    return app.send_static_file('../.well-known/assetlinks.json')
+
 @app.route('/')
 def index():
     return render_template('index.html')
