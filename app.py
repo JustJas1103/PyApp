@@ -70,7 +70,10 @@ RECIPES = load_recipes()
 @app.route('/.well-known/assetlinks.json')
 def assetlinks():
     """Serve Digital Asset Links file for Android app verification"""
-    return app.send_static_file('../.well-known/assetlinks.json')
+    import os
+    assetlinks_path = os.path.join(app.root_path, '.well-known', 'assetlinks.json')
+    with open(assetlinks_path, 'r') as f:
+        return f.read(), 200, {'Content-Type': 'application/json'}
 
 @app.route('/')
 def index():
