@@ -6,6 +6,8 @@
   let videoStream = null;
   const basket = new Set();
   const LS_KEY = 'recipeAssistant.basket';
+  let isOffline = !navigator.onLine;
+  
   function saveBasket(){ try{ localStorage.setItem(LS_KEY, JSON.stringify(Array.from(basket))); }catch(e){} }
   function loadBasket(){ try{ const arr = JSON.parse(localStorage.getItem(LS_KEY)||'[]'); if(Array.isArray(arr)) arr.forEach(i=> basket.add(String(i).toLowerCase())); }catch(e){} }
   
@@ -378,8 +380,57 @@
     }
   });
 
+  // Update offline status UI
+  function updateOfflineStatus() {
+    isOffline = !navigator.onLine;
+    const offlineIndicator = qs('#offlineIndicator');
+    const offlineBanner = qs('#offlineBanner');
+    const cameraSection = qs('.card');
+    const startCameraBtn = qs('#startCameraBtn');
+    const uploadBtn = qs('#imageUpload');
+    const uploadLabel = qs('label[for="imageUpload"]');
+    const dropZone = qs('#dropZone');
+    
+    if (isOffline) {
+      // Show offline indicators
+      if (offlineIndicator) show(offlineIndicator);
+      if (offlineBanner) show(offlineBanner);
+      
+      // Disable camera and upload features
+      if (startCameraBtn) {
+        startCameraBtn.disabled = true;
+        startCameraBtn.classList.add('disabled');
+      }
+      if (uploadBtn) uploadBtn.disabled = true;
+      if (uploadLabel) {
+        uploadLabel.classList.add('disabled', 'opacity-50');
+        uploadLabel.style.pointerEvents = 'none';
+      }
+      if (dropZone) hide(dropZone);
+    } else {
+      // Hide offline indicators
+      if (offlineIndicator) hide(offlineIndicator);
+      if (offlineBanner) hide(offlineBanner);
+      
+      // Enable camera and upload features
+      if (startCameraBtn) {
+        startCameraBtn.disabled = false;
+        startCameraBtn.classList.remove('disabled');
+      }
+      if (uploadBtn) uploadBtn.disabled = false;
+      if (uploadLabel) {
+        uploadLabel.classList.remove('disabled', 'opacity-50');
+        uploadLabel.style.pointerEvents = 'auto';
+      }
+      if (dropZone) show(dropZone);
+    }
+  }
+
   // Wire up events
   window.addEventListener('DOMContentLoaded', () => {
+    // Check offline status on load
+    updateOfflineStatus();
+    
     // Load basket
     loadBasket();
     renderBasket();
@@ -461,5 +512,16 @@
         }
       });
     }
+  });
+
+  // Listen for online/offline events
+  window.addEventListener('online', () => {
+    updateOfflineStatus();
+    toast('Back online! Camera and upload features are now available.', 'success');
+  });
+  
+  window.addEventListener('offline', () => {
+    updateOfflineStatus();
+    toast('You are offline. Browse recipes, but camera and upload are disabled.', 'warning');
   });
 })();
