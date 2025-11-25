@@ -2,11 +2,16 @@
 {% block head %}{% endblock %}
 {% block content %}
 <div id="offlineBanner" class="alert alert-warning d-none mb-4" role="alert">
-  <div class="d-flex align-items-center">
-    <span class="me-2" style="font-size: 1.5rem;">📡</span>
-    <div>
-      <strong>Offline Mode</strong> - You can browse recipes, but camera and upload features are disabled. Connect to the internet to detect ingredients.
+  <div class="d-flex align-items-center justify-content-between">
+    <div class="d-flex align-items-center">
+      <span class="me-2" style="font-size: 1.5rem;">📡</span>
+      <div>
+        <strong>Offline Mode</strong> - You can browse recipes, but camera and upload features are disabled. Connect to the internet to detect ingredients.
+      </div>
     </div>
+    <button id="offlineBrowseBtn" class="btn btn-warning btn-sm ms-3">
+      <span class="me-1">📚</span> Browse Recipes
+    </button>
   </div>
 </div>
 <div class="row g-4">
@@ -38,6 +43,12 @@
                     <button id="stopCameraBtn" class="btn btn-outline-secondary d-none">Stop Camera</button>
                     <label for="imageUpload" class="btn btn-info text-white mb-0">📁 Upload Image</label>
                     <input type="file" id="imageUpload" class="d-none" accept="image/*">
+                </div>
+
+                <div id="offlineModeSection" class="mt-3 d-none">
+                    <button id="browseRecipesBtn" class="btn btn-warning w-100">
+                        <span class="me-1">📚</span> Browse All Recipes (Offline Mode)
+                    </button>
                 </div>
 
                 <div id="dropZone" class="drop-zone mt-3 d-none d-md-block">

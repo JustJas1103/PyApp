@@ -385,7 +385,7 @@
     isOffline = !navigator.onLine;
     const offlineIndicator = qs('#offlineIndicator');
     const offlineBanner = qs('#offlineBanner');
-    const cameraSection = qs('.card');
+    const offlineModeSection = qs('#offlineModeSection');
     const startCameraBtn = qs('#startCameraBtn');
     const uploadBtn = qs('#imageUpload');
     const uploadLabel = qs('label[for="imageUpload"]');
@@ -395,6 +395,7 @@
       // Show offline indicators
       if (offlineIndicator) show(offlineIndicator);
       if (offlineBanner) show(offlineBanner);
+      if (offlineModeSection) show(offlineModeSection);
       
       // Disable camera and upload features
       if (startCameraBtn) {
@@ -411,6 +412,7 @@
       // Hide offline indicators
       if (offlineIndicator) hide(offlineIndicator);
       if (offlineBanner) hide(offlineBanner);
+      if (offlineModeSection) hide(offlineModeSection);
       
       // Enable camera and upload features
       if (startCameraBtn) {
@@ -424,6 +426,31 @@
       }
       if (dropZone) show(dropZone);
     }
+  }
+
+  // Show all recipes when offline browse button is clicked
+  function showAllRecipesOffline() {
+    // Fetch all recipes from server or use cached data
+    fetch('/recommend', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ingredients: [] })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.recipes && data.recipes.length > 0) {
+        allRecipes = data.recipes;
+        currentPage = 1;
+        renderRecipePage();
+        show(qs('#recipesCard'));
+        hide(qs('#recipesEmpty'));
+        qs('#recipesCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    })
+    .catch(err => {
+      console.error('Error fetching recipes:', err);
+      toast('Unable to load recipes. Please check your connection.', 'danger');
+    });
   }
 
   // Wire up events
@@ -488,6 +515,17 @@
         if (oldCanvas) oldCanvas.remove();
         toast('Cleared preview image', 'info');
       });
+    }
+
+    // Offline mode browse buttons
+    const browseRecipesBtn = qs('#browseRecipesBtn');
+    if (browseRecipesBtn) {
+      browseRecipesBtn.addEventListener('click', showAllRecipesOffline);
+    }
+    
+    const offlineBrowseBtn = qs('#offlineBrowseBtn');
+    if (offlineBrowseBtn) {
+      offlineBrowseBtn.addEventListener('click', showAllRecipesOffline);
     }
 
     // Pagination controls
