@@ -210,8 +210,8 @@
       }
     }
 
-    // Auto-hide splash after 2 seconds
-    setTimeout(hideSplash, 2000);
+    // Auto-hide splash after 1.5 seconds (shorter to appear seamless)
+    setTimeout(hideSplash, 1500);
 
     // Also hide when page fully loaded
     window.addEventListener('load', hideSplash);
