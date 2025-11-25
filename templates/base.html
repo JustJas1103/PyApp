@@ -21,9 +21,57 @@
   <link rel="apple-touch-icon" href="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f372.png">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
   {% block head %}{% endblock %}
-  <style>body{font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif}</style>
+  <style>
+    body{font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif}
+    #splashScreen{
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:100%;
+      background:linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      z-index:9999;
+      transition:opacity 0.5s ease-out;
+    }
+    #splashScreen.fade-out{opacity:0;pointer-events:none}
+    .splash-icon{font-size:80px;margin-bottom:20px;animation:bounce 1s infinite}
+    .splash-title{color:white;font-size:32px;font-weight:700;margin-bottom:10px}
+    .splash-subtitle{color:rgba(255,255,255,0.9);font-size:16px;margin-bottom:30px}
+    .splash-offline-btn{
+      position:absolute;
+      top:20px;
+      right:20px;
+      background:rgba(255,255,255,0.2);
+      border:2px solid white;
+      color:white;
+      padding:10px 20px;
+      border-radius:8px;
+      font-weight:600;
+      cursor:pointer;
+      transition:all 0.3s;
+    }
+    .splash-offline-btn:hover{background:rgba(255,255,255,0.3);transform:scale(1.05)}
+    @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
+  </style>
 </head>
 <body>
+  <!-- Splash Screen -->
+  <div id="splashScreen">
+    <button id="splashOfflineBtn" class="splash-offline-btn">
+      📡 Enter Offline Mode
+    </button>
+    <div class="splash-icon">🍳</div>
+    <div class="splash-title">AI Recipe Assistant</div>
+    <div class="splash-subtitle">Loading your culinary companion...</div>
+    <div class="spinner-border text-light" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
   <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top">
     <div class="container">
       <a class="navbar-brand fw-bold" href="/">🍳 AI Recipe Assistant</a>
@@ -144,6 +192,44 @@
       if (isStandalone) {
         downloadApkBtn.style.display = 'none';
       }
+    }
+
+    // Splash Screen Management
+    const splashScreen = document.getElementById('splashScreen');
+    const splashOfflineBtn = document.getElementById('splashOfflineBtn');
+    let splashDismissed = false;
+
+    // Hide splash screen after content loads or after 2 seconds
+    function hideSplash() {
+      if (!splashDismissed && splashScreen) {
+        splashDismissed = true;
+        splashScreen.classList.add('fade-out');
+        setTimeout(() => {
+          splashScreen.style.display = 'none';
+        }, 500);
+      }
+    }
+
+    // Auto-hide splash after 2 seconds
+    setTimeout(hideSplash, 2000);
+
+    // Also hide when page fully loaded
+    window.addEventListener('load', hideSplash);
+
+    // Offline mode button on splash screen
+    if (splashOfflineBtn) {
+      splashOfflineBtn.addEventListener('click', () => {
+        hideSplash();
+        // Trigger offline mode UI
+        if (window.location.pathname === '/') {
+          setTimeout(() => {
+            const browseBtn = document.querySelector('#browseRecipesBtn, #offlineBrowseBtn');
+            if (browseBtn) {
+              browseBtn.click();
+            }
+          }, 600);
+        }
+      });
     }
   </script>
 
