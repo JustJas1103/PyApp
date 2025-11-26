@@ -79,6 +79,11 @@ def assetlinks():
 def index():
     return render_template('index.html')
 
+@app.route('/recipes/all')
+def get_all_recipes():
+    """Return all recipes for offline browsing"""
+    return jsonify({'recipes': RECIPES})
+
 @app.route('/detect', methods=['POST'])
 def detect():
     try:
