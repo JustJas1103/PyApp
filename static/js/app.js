@@ -427,39 +427,33 @@
 
   // Show all recipes when offline browse button is clicked
   function showAllRecipesOffline() {
-    // Fetch all recipes from dedicated endpoint (will be cached by service worker)
-    fetch('/recipes/all')
-    .then(res => res.json())
-    .then(data => {
-      if (data.recipes && data.recipes.length > 0) {
-        // Add match percentage (100% since showing all recipes)
-        allRecipes = data.recipes.map(recipe => ({
-          ...recipe,
-          match_pct: 100,
-          matched: recipe.ingredients,
-          missing: []
-        }));
-        currentPage = 1;
-        renderRecipePage();
-        show(qs('#recipesCard'));
-        hide(qs('#recipesEmpty'));
-        
-        // Update recipes card title
-        const recipesTitle = qs('#recipes');
-        if (recipesTitle) {
-          recipesTitle.textContent = 'All Recipes';
-        }
-        
-        qs('#recipesCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        toast(`Showing all ${data.recipes.length} recipes`, 'success');
-      } else {
-        toast('No recipes available', 'info');
+    // Use embedded recipes data (always available offline)
+    const recipesData = window.OFFLINE_RECIPES || [];
+    
+    if (recipesData.length > 0) {
+      // Add match percentage (100% since showing all recipes)
+      allRecipes = recipesData.map(recipe => ({
+        ...recipe,
+        match_pct: 100,
+        matched: recipe.ingredients,
+        missing: []
+      }));
+      currentPage = 1;
+      renderRecipePage();
+      show(qs('#recipesCard'));
+      hide(qs('#recipesEmpty'));
+      
+      // Update recipes card title
+      const recipesTitle = qs('#recipes');
+      if (recipesTitle) {
+        recipesTitle.textContent = 'All Recipes';
       }
-    })
-    .catch(err => {
-      console.error('Error fetching recipes:', err);
-      toast('Unable to load recipes. Make sure you have visited the site online at least once.', 'warning');
-    });
+      
+      qs('#recipesCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      toast(`Showing all ${recipesData.length} recipes`, 'success');
+    } else {
+      toast('No recipes available', 'info');
+    }
   }
 
   // Wire up events

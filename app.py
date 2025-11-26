@@ -77,7 +77,8 @@ def assetlinks():
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    # Pass recipes to template for embedding in JavaScript
+    return render_template('index.html', recipes_json=json.dumps(RECIPES))
 
 @app.route('/recipes/all')
 def get_all_recipes():

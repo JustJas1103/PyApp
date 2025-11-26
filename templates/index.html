@@ -142,3 +142,10 @@
     </div>
 </div>
 {% endblock %}
+
+{% block scripts %}
+<script>
+  // Embed recipes data for offline access
+  window.OFFLINE_RECIPES = {{ recipes_json|safe }};
+</script>
+{% endblock %}
