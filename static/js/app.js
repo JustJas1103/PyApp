@@ -6,10 +6,20 @@
   let videoStream = null;
   const basket = new Set();
   const LS_KEY = 'recipeAssistant.basket';
+  const FAVORITES_KEY = 'recipeAssistant.favorites';
   let isOffline = !navigator.onLine;
+  let favorites = new Set();
   
   function saveBasket(){ try{ localStorage.setItem(LS_KEY, JSON.stringify(Array.from(basket))); }catch(e){} }
   function loadBasket(){ try{ const arr = JSON.parse(localStorage.getItem(LS_KEY)||'[]'); if(Array.isArray(arr)) arr.forEach(i=> basket.add(String(i).toLowerCase())); }catch(e){} }
+  
+  function saveFavorites(){ try{ localStorage.setItem(FAVORITES_KEY, JSON.stringify(Array.from(favorites))); }catch(e){} }
+  function loadFavorites(){ try{ const arr = JSON.parse(localStorage.getItem(FAVORITES_KEY)||'[]'); if(Array.isArray(arr)) favorites = new Set(arr); }catch(e){} }
+  function toggleFavorite(recipeName){ 
+    if(favorites.has(recipeName)){ favorites.delete(recipeName); } 
+    else { favorites.add(recipeName); } 
+    saveFavorites(); 
+  }
   
   // Pagination state
   let allRecipes = [];
@@ -281,9 +291,14 @@
     const have = (recipe.matched_ingredients || []).map(i=>`<span class="ingredient-tag ingredient-matched">${formatIngredient(i)}</span>`).join('');
     const need = (recipe.needed_ingredients || []).slice(0,5).map(i=>`<span class="ingredient-tag ingredient-needed">${formatIngredient(i)}</span>`).join('');
     const more = (recipe.needed_ingredients||[]).length > 5 ? `<span class="small-muted">+${recipe.needed_ingredients.length-5} more</span>` : '';
+    const isFav = favorites.has(recipe.name);
+    const heartIcon = isFav ? '❤️' : '🤍';
     return `
       <div class="col-md-6 col-xl-4">
         <div class="card recipe-card h-100 p-3">
+          <button class="btn btn-sm position-absolute top-0 end-0 mt-2 me-2 favorite-btn" data-recipe-name="${recipe.name}" style="font-size:20px;border:none;background:transparent;z-index:10;" title="Add to favorites">
+            ${heartIcon}
+          </button>
           <div class="text-center" style="font-size:48px">${recipe.image}</div>
           <h6 class="mt-2 mb-1 text-center">${recipe.name}</h6>
           <div class="text-center small-muted mb-2">${recipe.time} • ${recipe.servings} servings • ${recipe.difficulty}</div>
@@ -307,9 +322,71 @@
         showRecipeModal(recipe);
       });
     });
+    qsa('#recipeContainer .favorite-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const recipeName = btn.getAttribute('data-recipe-name');
+        toggleFavorite(recipeName);
+        btn.textContent = favorites.has(recipeName) ? '❤️' : '🤍';
+        toast(`${favorites.has(recipeName) ? 'Added to' : 'Removed from'} favorites`, 'success');
+      });
+    });
+  }
+
+  let currentRecipe = null;
+  let originalServings = 4;
+
+  function scaleIngredient(ingredientText, scale) {
+    // Extract numbers with optional fractions and decimals
+    const numberPattern = /(\d+(?:\/\d+)?(?:\.\d+)?)/g;
+    return ingredientText.replace(numberPattern, (match) => {
+      // Handle fractions
+      if (match.includes('/')) {
+        const [num, den] = match.split('/').map(Number);
+        const scaled = (num / den) * scale;
+        // Convert to fraction if it's simple, otherwise decimal
+        if (scaled % 1 === 0) return scaled.toString();
+        if (scaled < 1) {
+          // Try to convert back to fraction for small values
+          const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
+          const num = Math.round(scaled * 100);
+          const den = 100;
+          const div = gcd(num, den);
+          if (den/div <= 8) return `${num/div}/${den/div}`;
+        }
+        return scaled.toFixed(2).replace(/\.?0+$/, '');
+      }
+      // Handle regular numbers
+      const scaled = parseFloat(match) * scale;
+      return scaled.toFixed(2).replace(/\.?0+$/, '');
+    });
+  }
+
+  function updateServings(newServings) {
+    if (!currentRecipe || newServings < 1) return;
+    
+    const scale = newServings / originalServings;
+    const servingsInput = qs('#servingsInput');
+    if (servingsInput) servingsInput.value = newServings;
+    
+    // Update meta with new servings
+    qs('#modalMeta').textContent = `${currentRecipe.time} • ${newServings} servings • ${currentRecipe.difficulty}`;
+    
+    // Scale matched ingredients
+    const scaledMatched = (currentRecipe.matched_ingredients || []).map(i => scaleIngredient(i, scale));
+    qs('#modalHave').innerHTML = scaledMatched.map(i=>`<span class="ingredient-tag ingredient-matched">${formatIngredient(i)}</span>`).join('');
+    
+    // Scale needed ingredients
+    const scaledNeeded = (currentRecipe.needed_ingredients || []).map(i => scaleIngredient(i, scale));
+    qs('#modalNeed').innerHTML = scaledNeeded.map(i=>`<span class="ingredient-tag ingredient-needed">${formatIngredient(i)}</span>`).join('');
   }
 
   function showRecipeModal(recipe){
+    currentRecipe = recipe;
+    // Parse original servings from recipe
+    const servingsMatch = recipe.servings.match(/(\d+)/);
+    originalServings = servingsMatch ? parseInt(servingsMatch[1]) : 4;
+    
     qs('#recipeModalLabel').textContent = recipe.name;
     qs('#modalEmoji').textContent = recipe.image || '🍽️';
     qs('#modalMeta').textContent = `${recipe.time} • ${recipe.servings} servings • ${recipe.difficulty}`;
@@ -317,6 +394,15 @@
     qs('#modalHave').innerHTML = (recipe.matched_ingredients||[]).map(i=>`<span class="ingredient-tag ingredient-matched">${formatIngredient(i)}</span>`).join('');
     qs('#modalNeed').innerHTML = (recipe.needed_ingredients||[]).map(i=>`<span class="ingredient-tag ingredient-needed">${formatIngredient(i)}</span>`).join('');
     qs('#modalInstructions').textContent = recipe.instructions || '';
+    
+    // Initialize servings input
+    const servingsInput = qs('#servingsInput');
+    if (servingsInput) {
+      servingsInput.value = originalServings;
+      servingsInput.min = 1;
+      servingsInput.max = 99;
+    }
+    
     const modal = new bootstrap.Modal(qs('#recipeModal'));
     modal.show();
   }
@@ -461,8 +547,9 @@
     // Check offline status on load
     updateOfflineStatus();
     
-    // Load basket
+    // Load basket and favorites
     loadBasket();
+    loadFavorites();
     renderBasket();
     // Reflect current basket into recommendations (and show empty-state if none)
     updateRecommendationsFromBasket();
@@ -524,6 +611,34 @@
     const offlineBrowseBtn = qs('#offlineBrowseBtn');
     if (offlineBrowseBtn) {
       offlineBrowseBtn.addEventListener('click', showAllRecipesOffline);
+    }
+
+    // Portion calculator controls
+    const decreaseBtn = qs('#decreaseServings');
+    const increaseBtn = qs('#increaseServings');
+    const servingsInput = qs('#servingsInput');
+    
+    if (decreaseBtn) {
+      decreaseBtn.addEventListener('click', () => {
+        const current = parseInt(servingsInput.value) || originalServings;
+        if (current > 1) updateServings(current - 1);
+      });
+    }
+    
+    if (increaseBtn) {
+      increaseBtn.addEventListener('click', () => {
+        const current = parseInt(servingsInput.value) || originalServings;
+        if (current < 99) updateServings(current + 1);
+      });
+    }
+    
+    if (servingsInput) {
+      servingsInput.addEventListener('change', (e) => {
+        let value = parseInt(e.target.value);
+        if (isNaN(value) || value < 1) value = 1;
+        if (value > 99) value = 99;
+        updateServings(value);
+      });
     }
 
     // Pagination controls

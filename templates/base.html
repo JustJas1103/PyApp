@@ -40,6 +40,11 @@
           <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#howItWorksModal">How it works</a></li>
           <li class="nav-item"><a class="nav-link" href="#recipes">Recipes</a></li>
           <li class="nav-item">
+            <button id="darkModeToggle" class="btn btn-outline-secondary btn-sm me-2" title="Toggle dark mode">
+              <span id="darkModeIcon">🌙</span>
+            </button>
+          </li>
+          <li class="nav-item">
             <button id="installBtn" class="btn btn-outline-success btn-sm" style="display: none;">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16" style="margin-bottom: 2px;">
                 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -144,6 +149,36 @@
       if (isStandalone) {
         downloadApkBtn.style.display = 'none';
       }
+    }
+
+    // Dark Mode Toggle
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    const darkModeIcon = document.getElementById('darkModeIcon');
+    const DARK_MODE_KEY = 'recipeAssistant.darkMode';
+    
+    function setDarkMode(enabled) {
+      if (enabled) {
+        document.body.classList.add('dark-mode');
+        darkModeIcon.textContent = '☀️';
+        localStorage.setItem(DARK_MODE_KEY, 'true');
+      } else {
+        document.body.classList.remove('dark-mode');
+        darkModeIcon.textContent = '🌙';
+        localStorage.setItem(DARK_MODE_KEY, 'false');
+      }
+    }
+    
+    // Load saved preference
+    if (localStorage.getItem(DARK_MODE_KEY) === 'true') {
+      setDarkMode(true);
+    }
+    
+    // Toggle on click
+    if (darkModeToggle) {
+      darkModeToggle.addEventListener('click', () => {
+        const isDark = document.body.classList.contains('dark-mode');
+        setDarkMode(!isDark);
+      });
     }
 
 
