@@ -309,15 +309,16 @@
           <div class="mb-2"><strong class="small">You have</strong><div>${have || '<span class="text-muted small">None</span>'}</div></div>
           <div class="mb-2"><strong class="small">You need</strong><div>${need} ${more}</div></div>
           <div class="mt-auto d-grid">
-            <button class="btn btn-outline-primary btn-sm" data-recipe='${JSON.stringify(recipe).replace(/'/g, '&#39;')}'>View Details</button>
+            <button class="btn btn-outline-primary btn-sm view-details-btn" data-recipe='${JSON.stringify(recipe).replace(/'/g, '&#39;')}' style="position:relative;z-index:1;">View Details</button>
           </div>
         </div>
       </div>`
   }
 
   function attachCardHandlers(){
-    qsa('#recipeContainer button[data-recipe]').forEach(btn => {
-      btn.addEventListener('click', () => {
+    qsa('#recipeContainer .view-details-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
         const recipe = JSON.parse(btn.getAttribute('data-recipe'));
         showRecipeModal(recipe);
       });
@@ -542,6 +543,44 @@
     }
   }
 
+  // Show favorite recipes
+  function showFavoriteRecipes() {
+    if (favorites.size === 0) {
+      toast('No favorites yet. Add recipes to favorites by clicking the ❤️ icon!', 'info');
+      return;
+    }
+
+    // Get all recipes from embedded data
+    const recipesData = window.OFFLINE_RECIPES || [];
+    
+    // Filter to only show favorited recipes
+    const favoriteRecipesList = recipesData.filter(recipe => favorites.has(recipe.name));
+    
+    if (favoriteRecipesList.length > 0) {
+      allRecipes = favoriteRecipesList.map(recipe => ({
+        ...recipe,
+        match_pct: 100,
+        matched: recipe.ingredients,
+        missing: []
+      }));
+      currentPage = 1;
+      renderRecipePage();
+      show(qs('#recipesCard'));
+      hide(qs('#recipesEmpty'));
+      
+      // Update recipes card title
+      const recipesTitle = qs('#recipes');
+      if (recipesTitle) {
+        recipesTitle.textContent = 'My Favorites';
+      }
+      
+      qs('#recipesCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      toast(`Showing ${favoriteRecipesList.length} favorite recipe${favoriteRecipesList.length > 1 ? 's' : ''}`, 'success');
+    } else {
+      toast('No favorite recipes found', 'info');
+    }
+  }
+
   // Wire up events
   window.addEventListener('DOMContentLoaded', () => {
     // Check offline status on load
@@ -611,6 +650,12 @@
     const offlineBrowseBtn = qs('#offlineBrowseBtn');
     if (offlineBrowseBtn) {
       offlineBrowseBtn.addEventListener('click', showAllRecipesOffline);
+    }
+
+    // Favorites button
+    const favoritesBtn = qs('#favoritesBtn');
+    if (favoritesBtn) {
+      favoritesBtn.addEventListener('click', showFavoriteRecipes);
     }
 
     // Portion calculator controls
