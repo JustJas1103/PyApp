@@ -313,6 +313,12 @@
       : `<span class="badge text-bg-info match-badge">All Ingredients</span>
          <div class="small-muted">${(recipe.ingredients||[]).length} total ingredients</div>`;
     
+    // In favorites/browse view, show ingredients as "You need" instead of "You have"
+    const ingredientSections = recipe.match_percent !== undefined
+      ? `<div class="mb-2"><strong class="small">You have</strong><div>${have || '<span class="text-muted small">None</span>'}</div></div>
+         <div class="mb-2"><strong class="small">You need</strong><div>${need} ${more}</div></div>`
+      : `<div class="mb-2"><strong class="small">You need</strong><div>${have || '<span class="text-muted small">No ingredients listed</span>'}</div></div>`;
+    
     return `
       <div class="col-md-6 col-xl-4">
         <div class="card recipe-card h-100 p-3" style="position:relative;">
@@ -325,8 +331,7 @@
           <div class="text-center mb-3">
             ${matchDisplay}
           </div>
-          <div class="mb-2"><strong class="small">You have</strong><div>${have || '<span class="text-muted small">None</span>'}</div></div>
-          <div class="mb-2"><strong class="small">You need</strong><div>${need} ${more}</div></div>
+          ${ingredientSections}
           <div class="mt-auto d-grid" style="position:relative;z-index:1;">
             <button class="btn btn-outline-primary btn-sm view-details-btn" data-recipe='${JSON.stringify(recipe).replace(/'/g, '&#39;')}'>View Details</button>
           </div>
