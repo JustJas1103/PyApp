@@ -298,12 +298,21 @@
   }
 
   function recipeCard(recipe){
-    const badgeColor = recipe.match_percent >= 50 ? 'success' : (recipe.match_percent >= 25 ? 'warning' : 'secondary');
+    const matchPercent = recipe.match_percent !== undefined ? recipe.match_percent : 100;
+    const badgeColor = matchPercent >= 50 ? 'success' : (matchPercent >= 25 ? 'warning' : 'secondary');
     const have = (recipe.matched_ingredients || []).map(i=>`<span class="ingredient-tag ingredient-matched">${formatIngredient(i)}</span>`).join('');
     const need = (recipe.needed_ingredients || []).slice(0,5).map(i=>`<span class="ingredient-tag ingredient-needed">${formatIngredient(i)}</span>`).join('');
     const more = (recipe.needed_ingredients||[]).length > 5 ? `<span class="small-muted">+${recipe.needed_ingredients.length-5} more</span>` : '';
     const isFav = favorites.has(recipe.name);
     const heartIcon = isFav ? '❤️' : '🤍';
+    
+    // Handle display for favorites/browse view vs recommendation view
+    const matchDisplay = recipe.match_percent !== undefined 
+      ? `<span class="badge text-bg-${badgeColor} match-badge">${recipe.match_percent}% Match</span>
+         <div class="small-muted">${recipe.matched_count} of ${recipe.total_count} ingredients</div>`
+      : `<span class="badge text-bg-info match-badge">All Ingredients</span>
+         <div class="small-muted">${(recipe.ingredients||[]).length} total ingredients</div>`;
+    
     return `
       <div class="col-md-6 col-xl-4">
         <div class="card recipe-card h-100 p-3" style="position:relative;">
@@ -314,8 +323,7 @@
           <h6 class="mt-2 mb-1 text-center">${recipe.name}</h6>
           <div class="text-center small-muted mb-2">${recipe.time} • ${recipe.servings} servings • ${recipe.difficulty}</div>
           <div class="text-center mb-3">
-            <span class="badge text-bg-${badgeColor} match-badge">${recipe.match_percent}% Match</span>
-            <div class="small-muted">${recipe.matched_count} of ${recipe.total_count} ingredients</div>
+            ${matchDisplay}
           </div>
           <div class="mb-2"><strong class="small">You have</strong><div>${have || '<span class="text-muted small">None</span>'}</div></div>
           <div class="mb-2"><strong class="small">You need</strong><div>${need} ${more}</div></div>
@@ -402,7 +410,13 @@
     qs('#recipeModalLabel').textContent = recipe.name;
     qs('#modalEmoji').textContent = recipe.image || '🍽️';
     qs('#modalMeta').textContent = `${recipe.time} • ${recipe.servings} servings • ${recipe.difficulty}`;
-    qs('#modalMatch').textContent = `${recipe.match_percent}% match`;
+    
+    // Handle match display - show percentage or "All Ingredients" for browse/favorites view
+    const matchText = recipe.match_percent !== undefined 
+      ? `${recipe.match_percent}% match` 
+      : 'All Ingredients';
+    qs('#modalMatch').textContent = matchText;
+    
     qs('#modalHave').innerHTML = (recipe.matched_ingredients||[]).map(i=>`<span class="ingredient-tag ingredient-matched">${formatIngredient(i)}</span>`).join('');
     qs('#modalNeed').innerHTML = (recipe.needed_ingredients||[]).map(i=>`<span class="ingredient-tag ingredient-needed">${formatIngredient(i)}</span>`).join('');
     qs('#modalInstructions').textContent = recipe.instructions || '';
@@ -532,9 +546,8 @@
       // Add match percentage (100% since showing all recipes)
       allRecipes = recipesData.map(recipe => ({
         ...recipe,
-        match_pct: 100,
-        matched: recipe.ingredients,
-        missing: []
+        matched_ingredients: recipe.ingredients || [],
+        needed_ingredients: []
       }));
       currentPage = 1;
       renderRecipePage();
@@ -574,9 +587,8 @@
     if (favoriteRecipesList.length > 0) {
       allRecipes = favoriteRecipesList.map(recipe => ({
         ...recipe,
-        match_pct: 100,
-        matched: recipe.ingredients,
-        missing: []
+        matched_ingredients: recipe.ingredients || [],
+        needed_ingredients: []
       }));
       currentPage = 1;
       renderRecipePage();
