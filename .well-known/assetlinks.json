@@ -3,6 +3,6 @@
   "target": {
     "namespace": "android_app",
     "package_name": "com.onrender.pyapp_vilo.twa",
-    "sha256_cert_fingerprints": ["CD:8C:08:54:4B:DE:F0:97:C7:2C:01:12:8A:BA:31:77:35:53:45:50:DB:B6:9B:F7:21:D1:BD:D4:2C:17:9E:17"]
+    "sha256_cert_fingerprints": ["D3:4D:6C:A8:DE:99:17:F0:15:C6:39:A2:87:9D:16:F1:6D:40:0F:73:C3:25:A9:5F:F7:5F:38:38:13:50:7B:54"]
   }
 }]
