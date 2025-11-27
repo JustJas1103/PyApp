@@ -295,8 +295,8 @@
     const heartIcon = isFav ? '❤️' : '🤍';
     return `
       <div class="col-md-6 col-xl-4">
-        <div class="card recipe-card h-100 p-3">
-          <button class="btn position-absolute top-0 end-0 mt-2 me-2 favorite-btn" data-recipe-name="${recipe.name}" style="font-size:24px;border:none;background:transparent;z-index:10;min-width:44px;min-height:44px;padding:8px;display:flex;align-items:center;justify-content:center;" title="Add to favorites" aria-label="Toggle favorite">
+        <div class="card recipe-card h-100 p-3" style="position:relative;">
+          <button class="btn position-absolute top-0 end-0 mt-2 me-2 favorite-btn" data-recipe-name="${recipe.name}" style="font-size:24px;border:none;background:transparent;z-index:2;min-width:44px;min-height:44px;padding:8px;display:flex;align-items:center;justify-content:center;pointer-events:auto;" title="Add to favorites" aria-label="Toggle favorite">
             ${heartIcon}
           </button>
           <div class="text-center" style="font-size:48px">${recipe.image}</div>
@@ -308,8 +308,8 @@
           </div>
           <div class="mb-2"><strong class="small">You have</strong><div>${have || '<span class="text-muted small">None</span>'}</div></div>
           <div class="mb-2"><strong class="small">You need</strong><div>${need} ${more}</div></div>
-          <div class="mt-auto d-grid">
-            <button class="btn btn-outline-primary btn-sm view-details-btn" data-recipe='${JSON.stringify(recipe).replace(/'/g, '&#39;')}' style="position:relative;z-index:1;">View Details</button>
+          <div class="mt-auto d-grid" style="position:relative;z-index:1;">
+            <button class="btn btn-outline-primary btn-sm view-details-btn" data-recipe='${JSON.stringify(recipe).replace(/'/g, '&#39;')}'>View Details</button>
           </div>
         </div>
       </div>`
