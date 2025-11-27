@@ -404,13 +404,30 @@
     // Update meta with new servings
     qs('#modalMeta').textContent = `${currentRecipe.time} • ${newServings} servings • ${currentRecipe.difficulty}`;
     
-    // Scale matched ingredients
+    // Scale ingredients based on view type
     const scaledMatched = (currentRecipe.matched_ingredients || []).map(i => scaleIngredient(i, scale));
-    qs('#modalHave').innerHTML = scaledMatched.map(i=>`<span class="ingredient-tag ingredient-matched">${formatIngredient(i)}</span>`).join('');
-    
-    // Scale needed ingredients
     const scaledNeeded = (currentRecipe.needed_ingredients || []).map(i => scaleIngredient(i, scale));
-    qs('#modalNeed').innerHTML = scaledNeeded.map(i=>`<span class="ingredient-tag ingredient-needed">${formatIngredient(i)}</span>`).join('');
+    
+    const ingredientsContainer = qs('#modalIngredients');
+    if (currentRecipe.match_percent !== undefined) {
+      // Recommendations view - update both sections
+      ingredientsContainer.innerHTML = `
+        <div class="col-md-6">
+          <h6>✅ You have</h6>
+          <div>${scaledMatched.map(i=>`<span class="ingredient-tag ingredient-matched">${formatIngredient(i)}</span>`).join('') || '<span class="text-muted small">None</span>'}</div>
+        </div>
+        <div class="col-md-6">
+          <h6>🛒 You need</h6>
+          <div>${scaledNeeded.map(i=>`<span class="ingredient-tag ingredient-needed">${formatIngredient(i)}</span>`).join('') || '<span class="text-muted small">None</span>'}</div>
+        </div>`;
+    } else {
+      // Favorites/Browse view - update only "You need" section
+      ingredientsContainer.innerHTML = `
+        <div class="col-12">
+          <h6>🛒 Ingredients you need</h6>
+          <div>${scaledMatched.map(i=>`<span class="ingredient-tag ingredient-needed">${formatIngredient(i)}</span>`).join('') || '<span class="text-muted small">No ingredients listed</span>'}</div>
+        </div>`;
+    }
   }
 
   function showRecipeModal(recipe){
@@ -432,8 +449,28 @@
         : 'All Ingredients';
       qs('#modalMatch').textContent = matchText;
       
-      qs('#modalHave').innerHTML = (recipe.matched_ingredients||[]).map(i=>`<span class="ingredient-tag ingredient-matched">${formatIngredient(i)}</span>`).join('');
-      qs('#modalNeed').innerHTML = (recipe.needed_ingredients||[]).map(i=>`<span class="ingredient-tag ingredient-needed">${formatIngredient(i)}</span>`).join('');
+      // In favorites/browse view, show all ingredients as "You need"
+      const ingredientsContainer = qs('#modalIngredients');
+      if (recipe.match_percent !== undefined) {
+        // Recommendations view - show "You have" and "You need"
+        ingredientsContainer.innerHTML = `
+          <div class="col-md-6">
+            <h6>✅ You have</h6>
+            <div>${(recipe.matched_ingredients||[]).map(i=>`<span class="ingredient-tag ingredient-matched">${formatIngredient(i)}</span>`).join('') || '<span class="text-muted small">None</span>'}</div>
+          </div>
+          <div class="col-md-6">
+            <h6>🛒 You need</h6>
+            <div>${(recipe.needed_ingredients||[]).map(i=>`<span class="ingredient-tag ingredient-needed">${formatIngredient(i)}</span>`).join('') || '<span class="text-muted small">None</span>'}</div>
+          </div>`;
+      } else {
+        // Favorites/Browse view - show only "You need"
+        ingredientsContainer.innerHTML = `
+          <div class="col-12">
+            <h6>🛒 Ingredients you need</h6>
+            <div>${(recipe.matched_ingredients||[]).map(i=>`<span class="ingredient-tag ingredient-needed">${formatIngredient(i)}</span>`).join('') || '<span class="text-muted small">No ingredients listed</span>'}</div>
+          </div>`;
+      }
+      
       qs('#modalInstructions').textContent = recipe.instructions || '';
       
       // Initialize servings input
