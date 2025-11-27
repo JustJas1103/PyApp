@@ -296,7 +296,7 @@
     return `
       <div class="col-md-6 col-xl-4">
         <div class="card recipe-card h-100 p-3">
-          <button class="btn btn-sm position-absolute top-0 end-0 mt-2 me-2 favorite-btn" data-recipe-name="${recipe.name}" style="font-size:20px;border:none;background:transparent;z-index:10;" title="Add to favorites">
+          <button class="btn position-absolute top-0 end-0 mt-2 me-2 favorite-btn" data-recipe-name="${recipe.name}" style="font-size:24px;border:none;background:transparent;z-index:10;min-width:44px;min-height:44px;padding:8px;display:flex;align-items:center;justify-content:center;" title="Add to favorites" aria-label="Toggle favorite">
             ${heartIcon}
           </button>
           <div class="text-center" style="font-size:48px">${recipe.image}</div>
