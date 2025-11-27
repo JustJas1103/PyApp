@@ -321,7 +321,7 @@
           </button>
           <div class="text-center" style="font-size:48px">${recipe.image}</div>
           <h6 class="mt-2 mb-1 text-center">${recipe.name}</h6>
-          <div class="text-center small-muted mb-2">${recipe.time} • ${recipe.servings} servings • ${recipe.difficulty}</div>
+          <div class="text-center small-muted mb-2">${recipe.time} • ${typeof recipe.servings === 'string' ? recipe.servings : recipe.servings || 4} servings • ${recipe.difficulty}</div>
           <div class="text-center mb-3">
             ${matchDisplay}
           </div>
@@ -341,9 +341,7 @@
         e.preventDefault();
         try {
           const recipeData = btn.getAttribute('data-recipe');
-          console.log('Recipe data:', recipeData);
           const recipe = JSON.parse(recipeData);
-          console.log('Parsed recipe:', recipe);
           showRecipeModal(recipe);
         } catch (err) {
           console.error('Error showing recipe modal:', err);
@@ -411,16 +409,17 @@
   }
 
   function showRecipeModal(recipe){
-    console.log('showRecipeModal called with:', recipe);
     try {
       currentRecipe = recipe;
       // Parse original servings from recipe
-      const servingsMatch = recipe.servings.match(/(\d+)/);
+      const servingsStr = String(recipe.servings || '4');
+      const servingsMatch = servingsStr.match(/(\d+)/);
       originalServings = servingsMatch ? parseInt(servingsMatch[1]) : 4;
       
       qs('#recipeModalLabel').textContent = recipe.name;
       qs('#modalEmoji').textContent = recipe.image || '🍽️';
-      qs('#modalMeta').textContent = `${recipe.time} • ${recipe.servings} servings • ${recipe.difficulty}`;
+      const servingsDisplay = typeof recipe.servings === 'string' ? recipe.servings : `${recipe.servings || 4}`;
+      qs('#modalMeta').textContent = `${recipe.time} • ${servingsDisplay} servings • ${recipe.difficulty}`;
       
       // Handle match display - show percentage or "All Ingredients" for browse/favorites view
       const matchText = recipe.match_percent !== undefined 
@@ -440,23 +439,14 @@
         servingsInput.max = 99;
       }
       
-      console.log('About to show modal');
       const modalEl = qs('#recipeModal');
       if (!modalEl) {
-        console.error('Modal element not found!');
         toast('Modal element not found', 'danger');
-        return;
-      }
-      
-      if (typeof bootstrap === 'undefined') {
-        console.error('Bootstrap not loaded!');
-        toast('Bootstrap library not loaded', 'danger');
         return;
       }
       
       const modal = new bootstrap.Modal(modalEl);
       modal.show();
-      console.log('Modal.show() called');
     } catch (err) {
       console.error('Error in showRecipeModal:', err);
       toast('Error showing recipe: ' + err.message, 'danger');
