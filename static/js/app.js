@@ -338,8 +338,17 @@
     qsa('#recipeContainer .view-details-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
-        const recipe = JSON.parse(btn.getAttribute('data-recipe'));
-        showRecipeModal(recipe);
+        e.preventDefault();
+        try {
+          const recipeData = btn.getAttribute('data-recipe');
+          console.log('Recipe data:', recipeData);
+          const recipe = JSON.parse(recipeData);
+          console.log('Parsed recipe:', recipe);
+          showRecipeModal(recipe);
+        } catch (err) {
+          console.error('Error showing recipe modal:', err);
+          toast('Error loading recipe details: ' + err.message, 'danger');
+        }
       });
     });
     qsa('#recipeContainer .favorite-btn').forEach(btn => {
@@ -402,35 +411,56 @@
   }
 
   function showRecipeModal(recipe){
-    currentRecipe = recipe;
-    // Parse original servings from recipe
-    const servingsMatch = recipe.servings.match(/(\d+)/);
-    originalServings = servingsMatch ? parseInt(servingsMatch[1]) : 4;
-    
-    qs('#recipeModalLabel').textContent = recipe.name;
-    qs('#modalEmoji').textContent = recipe.image || '🍽️';
-    qs('#modalMeta').textContent = `${recipe.time} • ${recipe.servings} servings • ${recipe.difficulty}`;
-    
-    // Handle match display - show percentage or "All Ingredients" for browse/favorites view
-    const matchText = recipe.match_percent !== undefined 
-      ? `${recipe.match_percent}% match` 
-      : 'All Ingredients';
-    qs('#modalMatch').textContent = matchText;
-    
-    qs('#modalHave').innerHTML = (recipe.matched_ingredients||[]).map(i=>`<span class="ingredient-tag ingredient-matched">${formatIngredient(i)}</span>`).join('');
-    qs('#modalNeed').innerHTML = (recipe.needed_ingredients||[]).map(i=>`<span class="ingredient-tag ingredient-needed">${formatIngredient(i)}</span>`).join('');
-    qs('#modalInstructions').textContent = recipe.instructions || '';
-    
-    // Initialize servings input
-    const servingsInput = qs('#servingsInput');
-    if (servingsInput) {
-      servingsInput.value = originalServings;
-      servingsInput.min = 1;
-      servingsInput.max = 99;
+    console.log('showRecipeModal called with:', recipe);
+    try {
+      currentRecipe = recipe;
+      // Parse original servings from recipe
+      const servingsMatch = recipe.servings.match(/(\d+)/);
+      originalServings = servingsMatch ? parseInt(servingsMatch[1]) : 4;
+      
+      qs('#recipeModalLabel').textContent = recipe.name;
+      qs('#modalEmoji').textContent = recipe.image || '🍽️';
+      qs('#modalMeta').textContent = `${recipe.time} • ${recipe.servings} servings • ${recipe.difficulty}`;
+      
+      // Handle match display - show percentage or "All Ingredients" for browse/favorites view
+      const matchText = recipe.match_percent !== undefined 
+        ? `${recipe.match_percent}% match` 
+        : 'All Ingredients';
+      qs('#modalMatch').textContent = matchText;
+      
+      qs('#modalHave').innerHTML = (recipe.matched_ingredients||[]).map(i=>`<span class="ingredient-tag ingredient-matched">${formatIngredient(i)}</span>`).join('');
+      qs('#modalNeed').innerHTML = (recipe.needed_ingredients||[]).map(i=>`<span class="ingredient-tag ingredient-needed">${formatIngredient(i)}</span>`).join('');
+      qs('#modalInstructions').textContent = recipe.instructions || '';
+      
+      // Initialize servings input
+      const servingsInput = qs('#servingsInput');
+      if (servingsInput) {
+        servingsInput.value = originalServings;
+        servingsInput.min = 1;
+        servingsInput.max = 99;
+      }
+      
+      console.log('About to show modal');
+      const modalEl = qs('#recipeModal');
+      if (!modalEl) {
+        console.error('Modal element not found!');
+        toast('Modal element not found', 'danger');
+        return;
+      }
+      
+      if (typeof bootstrap === 'undefined') {
+        console.error('Bootstrap not loaded!');
+        toast('Bootstrap library not loaded', 'danger');
+        return;
+      }
+      
+      const modal = new bootstrap.Modal(modalEl);
+      modal.show();
+      console.log('Modal.show() called');
+    } catch (err) {
+      console.error('Error in showRecipeModal:', err);
+      toast('Error showing recipe: ' + err.message, 'danger');
     }
-    
-    const modal = new bootstrap.Modal(qs('#recipeModal'));
-    modal.show();
   }
 
   async function detectIngredients(imageData){
