@@ -253,6 +253,17 @@
     const items = Array.from(basket);
     const emptyEl = qs('#recipesEmpty');
     const container = qs('#recipeContainer');
+    const recipesTitle = qs('#recipes');
+    const closeBtn = qs('#closeRecipesBtn');
+    
+    // Reset to normal recommendations view
+    if (recipesTitle) {
+      recipesTitle.textContent = 'Recommendations';
+    }
+    if (closeBtn) {
+      hide(closeBtn);
+    }
+    
     if (!items.length){
       // Clear recipes and show empty state
       allRecipes = [];
@@ -530,10 +541,14 @@
       show(qs('#recipesCard'));
       hide(qs('#recipesEmpty'));
       
-      // Update recipes card title
+      // Update recipes card title and show close button
       const recipesTitle = qs('#recipes');
+      const closeBtn = qs('#closeRecipesBtn');
       if (recipesTitle) {
         recipesTitle.textContent = 'All Recipes';
+      }
+      if (closeBtn) {
+        show(closeBtn);
       }
       
       qs('#recipesCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -568,10 +583,14 @@
       show(qs('#recipesCard'));
       hide(qs('#recipesEmpty'));
       
-      // Update recipes card title
+      // Update recipes card title and show close button
       const recipesTitle = qs('#recipes');
+      const closeBtn = qs('#closeRecipesBtn');
       if (recipesTitle) {
         recipesTitle.textContent = 'My Favorites';
+      }
+      if (closeBtn) {
+        show(closeBtn);
       }
       
       qs('#recipesCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -656,6 +675,15 @@
     const favoritesBtn = qs('#favoritesBtn');
     if (favoritesBtn) {
       favoritesBtn.addEventListener('click', showFavoriteRecipes);
+    }
+
+    // Close recipes button (back to basket recommendations)
+    const closeRecipesBtn = qs('#closeRecipesBtn');
+    if (closeRecipesBtn) {
+      closeRecipesBtn.addEventListener('click', () => {
+        updateRecommendationsFromBasket();
+        toast('Returned to recommendations', 'info');
+      });
     }
 
     // Portion calculator controls

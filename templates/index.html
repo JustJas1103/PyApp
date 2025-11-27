@@ -90,7 +90,12 @@
             <div class="card-body">
                 <div class="d-flex align-items-center justify-content-between">
                     <h5 id="recipes" class="card-title mb-0">Recommendations</h5>
-                    <span class="text-muted small">Sorted by highest match</span>
+                    <div class="d-flex align-items-center gap-2">
+                        <button id="closeRecipesBtn" class="btn btn-sm btn-outline-secondary d-none" title="Back" style="min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center;">
+                            ×
+                        </button>
+                        <span class="text-muted small">Sorted by highest match</span>
+                    </div>
                 </div>
                 <div id="recipesEmpty" class="text-center text-muted py-4 d-none">
                     <div class="mb-2" style="font-size:32px">🧑‍🍳</div>
