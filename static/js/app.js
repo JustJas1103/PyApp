@@ -365,79 +365,10 @@
     });
   }
 
-  let currentRecipe = null;
-  let originalServings = 4;
 
-  function scaleIngredient(ingredientText, scale) {
-    // Extract numbers with optional fractions and decimals
-    const numberPattern = /(\d+(?:\/\d+)?(?:\.\d+)?)/g;
-    return ingredientText.replace(numberPattern, (match) => {
-      // Handle fractions
-      if (match.includes('/')) {
-        const [num, den] = match.split('/').map(Number);
-        const scaled = (num / den) * scale;
-        // Convert to fraction if it's simple, otherwise decimal
-        if (scaled % 1 === 0) return scaled.toString();
-        if (scaled < 1) {
-          // Try to convert back to fraction for small values
-          const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
-          const num = Math.round(scaled * 100);
-          const den = 100;
-          const div = gcd(num, den);
-          if (den/div <= 8) return `${num/div}/${den/div}`;
-        }
-        return scaled.toFixed(2).replace(/\.?0+$/, '');
-      }
-      // Handle regular numbers
-      const scaled = parseFloat(match) * scale;
-      return scaled.toFixed(2).replace(/\.?0+$/, '');
-    });
-  }
-
-  function updateServings(newServings) {
-    if (!currentRecipe || newServings < 1) return;
-    
-    const scale = newServings / originalServings;
-    const servingsInput = qs('#servingsInput');
-    if (servingsInput) servingsInput.value = newServings;
-    
-    // Update meta with new servings
-    qs('#modalMeta').textContent = `${currentRecipe.time} • ${newServings} servings • ${currentRecipe.difficulty}`;
-    
-    // Scale ingredients based on view type
-    const scaledMatched = (currentRecipe.matched_ingredients || []).map(i => scaleIngredient(i, scale));
-    const scaledNeeded = (currentRecipe.needed_ingredients || []).map(i => scaleIngredient(i, scale));
-    
-    const ingredientsContainer = qs('#modalIngredients');
-    if (currentRecipe.match_percent !== undefined) {
-      // Recommendations view - update both sections
-      ingredientsContainer.innerHTML = `
-        <div class="col-md-6">
-          <h6>✅ You have</h6>
-          <div>${scaledMatched.map(i=>`<span class="ingredient-tag ingredient-matched">${formatIngredient(i)}</span>`).join('') || '<span class="text-muted small">None</span>'}</div>
-        </div>
-        <div class="col-md-6">
-          <h6>🛒 You need</h6>
-          <div>${scaledNeeded.map(i=>`<span class="ingredient-tag ingredient-needed">${formatIngredient(i)}</span>`).join('') || '<span class="text-muted small">None</span>'}</div>
-        </div>`;
-    } else {
-      // Favorites/Browse view - update only "You need" section
-      ingredientsContainer.innerHTML = `
-        <div class="col-12">
-          <h6>🛒 Ingredients you need</h6>
-          <div>${scaledMatched.map(i=>`<span class="ingredient-tag ingredient-needed">${formatIngredient(i)}</span>`).join('') || '<span class="text-muted small">No ingredients listed</span>'}</div>
-        </div>`;
-    }
-  }
 
   function showRecipeModal(recipe){
     try {
-      currentRecipe = recipe;
-      // Parse original servings from recipe
-      const servingsStr = String(recipe.servings || '4');
-      const servingsMatch = servingsStr.match(/(\d+)/);
-      originalServings = servingsMatch ? parseInt(servingsMatch[1]) : 4;
-      
       qs('#recipeModalLabel').textContent = recipe.name;
       qs('#modalEmoji').textContent = recipe.image || '🍽️';
       const servingsDisplay = typeof recipe.servings === 'string' ? recipe.servings : `${recipe.servings || 4}`;
@@ -472,14 +403,6 @@
       }
       
       qs('#modalInstructions').textContent = recipe.instructions || '';
-      
-      // Initialize servings input
-      const servingsInput = qs('#servingsInput');
-      if (servingsInput) {
-        servingsInput.value = originalServings;
-        servingsInput.min = 1;
-        servingsInput.max = 99;
-      }
       
       const modalEl = qs('#recipeModal');
       if (!modalEl) {
@@ -757,34 +680,6 @@
       closeRecipesBtn.addEventListener('click', () => {
         updateRecommendationsFromBasket();
         toast('Returned to recommendations', 'info');
-      });
-    }
-
-    // Portion calculator controls
-    const decreaseBtn = qs('#decreaseServings');
-    const increaseBtn = qs('#increaseServings');
-    const servingsInput = qs('#servingsInput');
-    
-    if (decreaseBtn) {
-      decreaseBtn.addEventListener('click', () => {
-        const current = parseInt(servingsInput.value) || originalServings;
-        if (current > 1) updateServings(current - 1);
-      });
-    }
-    
-    if (increaseBtn) {
-      increaseBtn.addEventListener('click', () => {
-        const current = parseInt(servingsInput.value) || originalServings;
-        if (current < 99) updateServings(current + 1);
-      });
-    }
-    
-    if (servingsInput) {
-      servingsInput.addEventListener('change', (e) => {
-        let value = parseInt(e.target.value);
-        if (isNaN(value) || value < 1) value = 1;
-        if (value > 99) value = 99;
-        updateServings(value);
       });
     }
 
