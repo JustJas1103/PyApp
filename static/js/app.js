@@ -23,8 +23,10 @@
   
   // Pagination state
   let allRecipes = [];
+  let filteredRecipes = [];
   let currentPage = 1;
   const recipesPerPage = 12;
+  let isSearchMode = false;
 
   function show(el){ el.classList.remove('d-none'); }
   function hide(el){ el.classList.add('d-none'); }
@@ -221,9 +223,16 @@
     const nextBtn = qs('#nextPageBtn');
     const pageInfo = qs('#pageInfo');
     
-    if (!allRecipes.length){
+    const recipesToShow = isSearchMode ? filteredRecipes : allRecipes;
+    
+    if (!recipesToShow.length){
       container.innerHTML = '';
-      if (emptyEl) emptyEl.classList.remove('d-none');
+      if (emptyEl) {
+        emptyEl.classList.remove('d-none');
+        if (isSearchMode) {
+          emptyEl.innerHTML = '<div class="text-center text-muted py-4"><div class="mb-2" style="font-size:32px">🔍</div><div>No recipes found</div><div class="small">Try a different search term</div></div>';
+        }
+      }
       if (paginationEl) hide(paginationEl);
       return;
     }
@@ -232,8 +241,8 @@
     
     const start = (currentPage - 1) * recipesPerPage;
     const end = start + recipesPerPage;
-    const pageRecipes = allRecipes.slice(start, end);
-    const totalPages = Math.ceil(allRecipes.length / recipesPerPage);
+    const pageRecipes = recipesToShow.slice(start, end);
+    const totalPages = Math.ceil(recipesToShow.length / recipesPerPage);
     
     container.innerHTML = pageRecipes.map(recipeCard).join('');
     attachCardHandlers();
@@ -257,12 +266,19 @@
     const closeBtn = qs('#closeRecipesBtn');
     
     // Reset to normal recommendations view
+    const searchContainer = qs('#recipeSearchContainer');
     if (recipesTitle) {
       recipesTitle.textContent = 'Recommendations';
     }
     if (closeBtn) {
       hide(closeBtn);
     }
+    if (searchContainer) {
+      hide(searchContainer);
+      qs('#recipeSearchInput').value = '';
+    }
+    isSearchMode = false;
+    filteredRecipes = [];
     
     if (!items.length){
       // Clear recipes and show empty state
@@ -295,6 +311,25 @@
   function formatIngredient(ing){
     // Replace underscores with spaces and capitalize first letter of each word
     return ing.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+  }
+
+  function searchRecipes(searchTerm) {
+    if (!searchTerm.trim()) {
+      isSearchMode = false;
+      filteredRecipes = allRecipes;
+    } else {
+      isSearchMode = true;
+      const term = searchTerm.toLowerCase();
+      filteredRecipes = allRecipes.filter(recipe => {
+        const nameMatch = recipe.name.toLowerCase().includes(term);
+        const ingredientMatch = (recipe.ingredients || []).some(ingredient => 
+          ingredient.toLowerCase().includes(term)
+        );
+        return nameMatch || ingredientMatch;
+      });
+    }
+    currentPage = 1;
+    renderRecipePage();
   }
 
   function recipeCard(recipe){
@@ -536,15 +571,20 @@
       show(qs('#recipesCard'));
       hide(qs('#recipesEmpty'));
       
-      // Update recipes card title and show close button
+      // Update recipes card title and show close button and search
       const recipesTitle = qs('#recipes');
       const closeBtn = qs('#closeRecipesBtn');
+      const searchContainer = qs('#recipeSearchContainer');
       if (recipesTitle) {
         recipesTitle.textContent = 'All Recipes';
       }
       if (closeBtn) {
         show(closeBtn);
       }
+      if (searchContainer) {
+        show(searchContainer);
+      }
+      filteredRecipes = allRecipes;
       
       qs('#recipesCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
       toast(`Showing all ${recipesData.length} recipes`, 'success');
@@ -577,15 +617,20 @@
       show(qs('#recipesCard'));
       hide(qs('#recipesEmpty'));
       
-      // Update recipes card title and show close button
+      // Update recipes card title and show close button and search
       const recipesTitle = qs('#recipes');
       const closeBtn = qs('#closeRecipesBtn');
+      const searchContainer = qs('#recipeSearchContainer');
       if (recipesTitle) {
         recipesTitle.textContent = 'My Favorites';
       }
       if (closeBtn) {
         show(closeBtn);
       }
+      if (searchContainer) {
+        show(searchContainer);
+      }
+      filteredRecipes = allRecipes;
       
       qs('#recipesCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
       toast(`Showing ${favoriteRecipesList.length} favorite recipe${favoriteRecipesList.length > 1 ? 's' : ''}`, 'success');
@@ -657,6 +702,23 @@
       closeRecipesBtn.addEventListener('click', () => {
         updateRecommendationsFromBasket();
         toast('Returned to recommendations', 'info');
+      });
+    }
+
+    // Recipe search functionality
+    const searchInput = qs('#recipeSearchInput');
+    const clearSearchBtn = qs('#clearSearchBtn');
+    
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        searchRecipes(e.target.value);
+      });
+    }
+    
+    if (clearSearchBtn) {
+      clearSearchBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        searchRecipes('');
       });
     }
 
