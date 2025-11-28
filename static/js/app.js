@@ -485,7 +485,6 @@
     const startCameraBtn = qs('#startCameraBtn');
     const uploadBtn = qs('#imageUpload');
     const uploadLabel = qs('label[for="imageUpload"]');
-    const dropZone = qs('#dropZone');
     
     if (isOffline) {
       // Show offline indicators
@@ -502,6 +501,7 @@
         uploadLabel.classList.add('disabled', 'opacity-50');
         uploadLabel.style.pointerEvents = 'none';
       }
+      const dropZone = qs('#dropZone');
       if (dropZone) hide(dropZone);
     } else {
       // Hide offline indicators
@@ -518,6 +518,7 @@
         uploadLabel.classList.remove('disabled', 'opacity-50');
         uploadLabel.style.pointerEvents = 'auto';
       }
+      const dropZone = qs('#dropZone');
       if (dropZone) show(dropZone);
     }
   }

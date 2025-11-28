@@ -47,6 +47,10 @@ body{background:var(--bg)}
 .ingredient-needed{background:var(--tag-need-bg);color:var(--tag-need-text);border-color:var(--tag-need-border)}
 .recipe-card{transition:transform .15s ease, box-shadow .15s ease}
 .recipe-card:hover{transform:translateY(-3px); box-shadow:0 .5rem 1rem rgba(0,0,0,.08)}
+
+.drop-zone{border:2px dashed #dee2e6;border-radius:8px;padding:3rem;text-align:center;background:rgba(var(--bs-primary-rgb),.03);transition:all .2s ease}
+.drop-zone.dragover{border-color:var(--bs-primary);background:rgba(var(--bs-primary-rgb),.1)}
+.dz-instructions{color:#6c757d;font-size:1rem}
 .match-badge{font-weight:700}
 .small-muted{color:var(--muted);font-size:.9rem}
 #videoElement{width:100%;height:auto;border-radius:12px;background:#000}
@@ -61,9 +65,7 @@ body{background:var(--bg)}
 .skeleton{background:linear-gradient(90deg,#eee,#f5f5f5,#eee);background-size:200% 100%;animation:skeleton 1.2s ease-in-out infinite}
 @keyframes skeleton{0%{background-position:200% 0}100%{background-position:-200% 0}}
 
-/* Drag & Drop zone */
-.drop-zone{border:2px dashed var(--border);border-radius:12px;padding:1rem;text-align:center;color:var(--muted);background:#fff}
-.drop-zone.dragover{background:#f0fdf4;border-color:#86efac;color:#166534}
+
 
 /* Removable chips */
 .chip{display:inline-flex;align-items:center;gap:.35rem}
