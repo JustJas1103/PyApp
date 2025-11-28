@@ -501,8 +501,6 @@
         uploadLabel.classList.add('disabled', 'opacity-50');
         uploadLabel.style.pointerEvents = 'none';
       }
-      const dropZone = qs('#dropZone');
-      if (dropZone) hide(dropZone);
     } else {
       // Hide offline indicators
       if (offlineIndicator) hide(offlineIndicator);
@@ -518,8 +516,6 @@
         uploadLabel.classList.remove('disabled', 'opacity-50');
         uploadLabel.style.pointerEvents = 'auto';
       }
-      const dropZone = qs('#dropZone');
-      if (dropZone) show(dropZone);
     }
   }
 
@@ -615,26 +611,6 @@
     qs('#stopCameraBtn').addEventListener('click', stopCamera);
     qs('#captureBtn').addEventListener('click', capturePhoto);
     qs('#imageUpload').addEventListener('change', onUploadChange);
-
-    // Drag and Drop (desktop only)
-    const drop = qs('#dropZone');
-    if (drop){
-      ;['dragenter','dragover'].forEach(evt => drop.addEventListener(evt, (e)=>{ e.preventDefault(); e.stopPropagation(); drop.classList.add('dragover'); }));
-      ;['dragleave','drop'].forEach(evt => drop.addEventListener(evt, (e)=>{ e.preventDefault(); e.stopPropagation(); drop.classList.remove('dragover'); }));
-      drop.addEventListener('drop', (e) => {
-        const file = e.dataTransfer.files && e.dataTransfer.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-          const imageData = ev.target.result;
-          qs('#preview').src = imageData;
-          show(qs('#previewContainer'));
-          hide(qs('#cameraContainer'));
-          detectIngredients(imageData);
-        };
-        reader.readAsDataURL(file);
-      });
-    }
 
     const clearBtn = qs('#clearBasketBtn');
     if (clearBtn){
