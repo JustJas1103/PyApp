@@ -26,49 +26,58 @@
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top">
     <div class="container">
-      <a class="navbar-brand fw-bold" href="/">🍳 AI Recipe Assistant</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <span id="offlineIndicator" class="badge bg-warning text-dark me-2" style="display: none; padding: 0.5rem 0.75rem; font-size: 0.875rem;">
-              📡 Offline Mode
-            </span>
-          </li>
-          {% if not request.path.startswith('/admin') %}
-          <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#howItWorksModal">How it works</a></li>
-          <li class="nav-item"><a class="nav-link" href="#recipes">Recipes</a></li>
-          <li class="nav-item">
-            <button id="favoritesBtn" class="btn btn-outline-danger me-2" style="min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; padding: 0.5rem;" title="My Favorites">
-              <span style="font-size: 20px;">❤️</span>
-            </button>
-          </li>
-          <li class="nav-item">
-            <button id="darkModeToggle" class="btn btn-outline-secondary me-2" style="min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; padding: 0.5rem;" title="Toggle dark mode">
-              <span id="darkModeIcon" style="font-size: 20px;">🌙</span>
-            </button>
-          </li>
-          <li class="nav-item">
-            <button id="installBtn" class="btn btn-outline-success btn-sm" style="display: none;">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16" style="margin-bottom: 2px;">
-                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
-              </svg>
-              Install Shortcut
-            </button>
-          </li>
-          <li class="nav-item">
-            <a href="#" id="downloadApkBtn" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#apkDownloadModal">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16" style="margin-bottom: 2px;">
-                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
-                <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
-              </svg>
-              Download APK
-            </a>
-          </li>
+      {% if request.path.startswith('/admin') %}
+        <a class="navbar-brand fw-bold" href="{{ url_for('admin_dashboard') }}">🔐 Admin Panel</a>
+        <div class="navbar-nav ms-auto">
+          {% if request.path != '/admin/login' %}
+            <a href="{{ url_for('admin_logout') }}" class="btn btn-outline-secondary btn-sm">Logout</a>
           {% endif %}
+        </div>
+      {% else %}
+        <a class="navbar-brand fw-bold" href="/">🍳 AI Recipe Assistant</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <span id="offlineIndicator" class="badge bg-warning text-dark me-2" style="display: none; padding: 0.5rem 0.75rem; font-size: 0.875rem;">
+                📡 Offline Mode
+              </span>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#howItWorksModal">How it works</a></li>
+            <li class="nav-item"><a class="nav-link" href="#recipes">Recipes</a></li>
+            <li class="nav-item">
+              <button id="favoritesBtn" class="btn btn-outline-danger me-2" style="min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; padding: 0.5rem;" title="My Favorites">
+                <span style="font-size: 20px;">❤️</span>
+              </button>
+            </li>
+            <li class="nav-item">
+              <button id="darkModeToggle" class="btn btn-outline-secondary me-2" style="min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; padding: 0.5rem;" title="Toggle dark mode">
+                <span id="darkModeIcon" style="font-size: 20px;">🌙</span>
+              </button>
+            </li>
+            <li class="nav-item">
+              <button id="installBtn" class="btn btn-outline-success btn-sm" style="display: none;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16" style="margin-bottom: 2px;">
+                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                </svg>
+                Install Shortcut
+              </button>
+            </li>
+            <li class="nav-item">
+              <a href="#" id="downloadApkBtn" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#apkDownloadModal">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16" style="margin-bottom: 2px;">
+                  <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                  <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                </svg>
+                Download APK
+              </a>
+            </li>
+          </ul>
+        </div>
+      {% endif %}
         </ul>
       </div>
     </div>
