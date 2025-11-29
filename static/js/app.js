@@ -439,6 +439,20 @@
       
       qs('#modalInstructions').textContent = recipe.instructions || '';
       
+      // Show nutritional information if available
+      const nutritionContainer = qs('#modalNutrition');
+      if (recipe.nutrition) {
+        qs('#nutritionCalories').textContent = recipe.nutrition.calories || '-';
+        qs('#nutritionProtein').textContent = recipe.nutrition.protein || '-';
+        qs('#nutritionCarbs').textContent = recipe.nutrition.carbs || '-';
+        qs('#nutritionFat').textContent = recipe.nutrition.fat || '-';
+        qs('#nutritionFiber').textContent = recipe.nutrition.fiber || '-';
+        qs('#nutritionSodium').textContent = recipe.nutrition.sodium || '-';
+        nutritionContainer.classList.remove('d-none');
+      } else {
+        nutritionContainer.classList.add('d-none');
+      }
+      
       const modalEl = qs('#recipeModal');
       if (!modalEl) {
         toast('Modal element not found', 'danger');

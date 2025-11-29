@@ -137,9 +137,52 @@
                 <div class="row g-3" id="modalIngredients">
                     <!-- Ingredient sections will be dynamically populated -->
                 </div>
+                
+                <div id="modalNutrition" class="mt-3 d-none">
+                    <hr/>
+                    <h6>🥗 Nutritional Information <small class="text-muted">(per serving)</small></h6>
+                    <div class="row g-2">
+                        <div class="col-6 col-md-4">
+                            <div class="text-center p-2 bg-light rounded">
+                                <div class="fw-bold text-primary" id="nutritionCalories">-</div>
+                                <small class="text-muted">Calories</small>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4">
+                            <div class="text-center p-2 bg-light rounded">
+                                <div class="fw-bold text-success" id="nutritionProtein">-</div>
+                                <small class="text-muted">Protein</small>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4">
+                            <div class="text-center p-2 bg-light rounded">
+                                <div class="fw-bold text-warning" id="nutritionCarbs">-</div>
+                                <small class="text-muted">Carbs</small>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4">
+                            <div class="text-center p-2 bg-light rounded">
+                                <div class="fw-bold text-info" id="nutritionFat">-</div>
+                                <small class="text-muted">Fat</small>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4">
+                            <div class="text-center p-2 bg-light rounded">
+                                <div class="fw-bold text-secondary" id="nutritionFiber">-</div>
+                                <small class="text-muted">Fiber</small>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-4">
+                            <div class="text-center p-2 bg-light rounded">
+                                <div class="fw-bold text-danger" id="nutritionSodium">-</div>
+                                <small class="text-muted">Sodium</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <hr/>
-                <h6>Instructions</h6>
-                <p id="modalInstructions" class="mb-0"></p>
+                <h6>📝 Instructions</h6>
+                <div id="modalInstructions" class="mb-0" style="white-space: pre-line;"></div>
             </div>
         </div>
     </div>
