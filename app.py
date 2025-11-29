@@ -41,6 +41,7 @@ def match_recipes(available_ingredients: list):
             "difficulty": recipe["difficulty"],
             "image": recipe["image"],
             "instructions": recipe["instructions"],
+            "nutrition": recipe.get("nutrition"),
             "match_percent": match_percent,
             "matched_count": num_matches,
             "total_count": total_ingredients,
