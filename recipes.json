@@ -6,7 +6,15 @@
     "difficulty": "Easy",
     "ingredients": ["chicken_wings", "chicken_thigh", "chicken_drumstick", "chicken_whole_leg", "pork", "soy sauce", "vinegar", "garlic", "bay leaves", "black pepper", "oil", "salt"],
     "image": "🍗",
-    "instructions": "1. Marinate meat in soy sauce, vinegar, and garlic. 2. Brown meat in oil. 3. Add marinade, bay leaves, and pepper. 4. Simmer until tender."
+    "instructions": "1. Marinate meat in soy sauce, vinegar, and garlic for at least 30 minutes.\n\n2. Heat oil in a heavy-bottomed pot and brown the meat on all sides.\n\n3. Add the marinade, bay leaves, and black pepper to the pot.\n\n4. Bring to a boil, then reduce heat and simmer covered for 30-40 minutes until meat is tender.\n\n5. Remove lid and continue cooking to reduce sauce if desired. Serve hot with steamed rice.",
+    "nutrition": {
+      "calories": 320,
+      "protein": "28g",
+      "carbs": "8g",
+      "fat": "20g",
+      "fiber": "1g",
+      "sodium": "1200mg"
+    }
   },
   {
     "name": "Sinigang",
@@ -15,7 +23,15 @@
     "difficulty": "Easy",
     "ingredients": ["pork", "tamarind", "tomatoes", "onion", "kangkong", "radish", "eggplant", "okra", "fish sauce", "salt", "ginger"],
     "image": "🥣",
-    "instructions": "1. Boil pork until tender. 2. Add tomato and onion. 3. Add tamarind mix and vegetables. 4. Season with fish sauce. Simmer until done."
+    "instructions": "1. In a large pot, boil pork ribs with water and ginger until tender (about 30 minutes).\n\n2. Add sliced tomatoes and onions, cook until soft.\n\n3. Add tamarind paste or fresh tamarind water for sourness.\n\n4. Add radish and eggplant first, cook for 5 minutes.\n\n5. Add okra and kangkong leaves last.\n\n6. Season with fish sauce and salt to taste. Simmer for 2-3 more minutes.",
+    "nutrition": {
+      "calories": 250,
+      "protein": "22g",
+      "carbs": "15g",
+      "fat": "12g",
+      "fiber": "4g",
+      "sodium": "800mg"
+    }
   },
   {
     "name": "Chicken Tinola",
@@ -24,7 +40,15 @@
     "difficulty": "Easy",
     "ingredients": ["chicken_thigh", "chicken_whole_leg", "chicken_whole", "ginger", "onion", "garlic", "papaya", "chili leaves", "fish sauce", "salt"],
     "image": "🍲",
-    "instructions": "1. Sauté ginger, onion, and garlic. 2. Add chicken and brown. 3. Add water and simmer. 4. Add papaya and chili leaves. Season with fish sauce."
+    "instructions": "1. Heat oil in a pot and sauté sliced ginger, onion, and garlic until fragrant.\n\n2. Add chicken pieces and brown on all sides for about 5 minutes.\n\n3. Pour in water or chicken broth and bring to a boil.\n\n4. Reduce heat and simmer covered for 15 minutes until chicken is tender.\n\n5. Add sliced green papaya and cook for 5 minutes.\n\n6. Add chili leaves (malunggay leaves) and season with fish sauce and salt.\n\n7. Simmer for 2 more minutes until leaves are wilted. Serve hot.",
+    "nutrition": {
+      "calories": 280,
+      "protein": "30g",
+      "carbs": "12g",
+      "fat": "14g",
+      "fiber": "2g",
+      "sodium": "650mg"
+    }
   },
   {
     "name": "Kare-Kare",
@@ -33,7 +57,15 @@
     "difficulty": "Medium",
     "ingredients": ["oxtail", "pork", "peanut butter", "eggplant", "string beans", "banana heart", "bok choy", "bagoong", "annatto seeds", "onion", "garlic", "salt"],
     "image": "🍛",
-    "instructions": "1. Boil oxtail and pork until tender. 2. Make peanut sauce with annatto. 3. Add vegetables and simmer. 4. Serve with bagoong."
+    "instructions": "1. Boil oxtail and pork hocks in salted water for 1.5-2 hours until very tender.\n\n2. Reserve the broth and set meat aside.\n\n3. Steep annatto seeds in warm water, then strain to get orange liquid.\n\n4. In a large pan, sauté garlic and onion until soft.\n\n5. Add peanut butter and annatto water, whisk until smooth.\n\n6. Gradually add reserved broth to make a thick sauce.\n\n7. Add the cooked meat and simmer for 10 minutes.\n\n8. Add eggplant and string beans, cook for 5 minutes.\n\n9. Add bok choy and banana heart last, cook until tender.\n\n10. Serve with bagoong (shrimp paste) on the side.",
+    "nutrition": {
+      "calories": 420,
+      "protein": "32g",
+      "carbs": "18g",
+      "fat": "28g",
+      "fiber": "6g",
+      "sodium": "900mg"
+    }
   },
   {
     "name": "Pancit Canton",
@@ -42,7 +74,15 @@
     "difficulty": "Easy",
     "ingredients": ["canton noodles", "chicken_breast", "pork", "carrot", "cabbage", "celery", "soy sauce", "garlic", "onion", "spring onion", "salt", "msg"],
     "image": "🍜",
-    "instructions": "1. Sauté garlic and onion. 2. Add meat and cook. 3. Add vegetables and soy sauce. 4. Add noodles and mix well."
+    "instructions": "1. Soak canton noodles in warm water until soft, then drain.\n\n2. Heat oil in a large wok or pan, sauté garlic and onion until fragrant.\n\n3. Add sliced chicken and pork, cook until no longer pink.\n\n4. Add carrots and celery, stir-fry for 2 minutes.\n\n5. Add cabbage and cook until slightly wilted.\n\n6. Season with soy sauce, salt, and a pinch of MSG if desired.\n\n7. Add the softened noodles and toss everything together.\n\n8. Cook for 3-5 minutes, stirring constantly.\n\n9. Garnish with chopped spring onions and serve with calamansi.",
+    "nutrition": {
+      "calories": 380,
+      "protein": "24g",
+      "carbs": "45g",
+      "fat": "12g",
+      "fiber": "3g",
+      "sodium": "1100mg"
+    }
   },
   {
     "name": "Lumpia Shanghai",
@@ -51,7 +91,15 @@
     "difficulty": "Medium",
     "ingredients": ["pork", "carrot", "onion", "garlic", "egg", "lumpia wrapper", "soy sauce", "oil", "salt", "spring onion"],
     "image": "🥟",
-    "instructions": "1. Mix ground pork with vegetables and egg. 2. Wrap mixture in lumpia wrapper. 3. Deep fry until golden brown. 4. Serve with sweet chili sauce."
+    "instructions": "1. In a bowl, mix ground pork with finely chopped carrots, onion, garlic, and spring onions.\n\n2. Add beaten egg, soy sauce, salt, and pepper to bind the mixture.\n\n3. Place a tablespoon of filling on one corner of the lumpia wrapper.\n\n4. Roll tightly, folding in the sides, and seal the end with water.\n\n5. Heat oil to 350°F (175°C) for deep frying.\n\n6. Fry lumpia in batches until golden brown and crispy, about 3-4 minutes.\n\n7. Drain on paper towels and serve hot with sweet chili sauce or banana ketchup.",
+    "nutrition": {
+      "calories": 180,
+      "protein": "12g",
+      "carbs": "8g",
+      "fat": "12g",
+      "fiber": "1g",
+      "sodium": "400mg"
+    }
   },
   {
     "name": "Bistek Tagalog",
@@ -60,7 +108,15 @@
     "difficulty": "Easy",
     "ingredients": ["beef", "soy sauce", "lemon", "onion", "garlic", "black pepper", "oil", "salt"],
     "image": "🥩",
-    "instructions": "1. Marinate beef in soy sauce and lemon juice. 2. Fry onion rings and set aside. 3. Cook beef until tender. 4. Top with fried onions."
+    "instructions": "1. Marinate thin beef slices in soy sauce, lemon juice, and black pepper for 30 minutes.\n\n2. Heat oil in a pan and fry onion rings until golden and caramelized. Set aside.\n\n3. In the same pan, cook marinated beef over medium-high heat.\n\n4. Cook beef for 2-3 minutes per side until tender but not overcooked.\n\n5. Pour in the remaining marinade and let it simmer briefly.\n\n6. Top with the fried onions and serve hot with steamed rice.",
+    "nutrition": {
+      "calories": 290,
+      "protein": "26g",
+      "carbs": "8g",
+      "fat": "18g",
+      "fiber": "1g",
+      "sodium": "950mg"
+    }
   },
   {
     "name": "Lechon Kawali",
@@ -69,7 +125,15 @@
     "difficulty": "Medium",
     "ingredients": ["pork belly", "bay leaves", "black pepper", "salt", "garlic", "oil"],
     "image": "🐷",
-    "instructions": "1. Boil pork belly with bay leaves and pepper. 2. Let dry and rub with salt. 3. Deep fry until crispy. 4. Serve with lechon sauce or vinegar."
+    "instructions": "1. Boil pork belly with bay leaves, garlic, and black pepper for 30 minutes until tender.\n\n2. Remove from water and let cool completely. Pat dry thoroughly.\n\n3. Rub all surfaces with salt and let sit for 10 minutes.\n\n4. Heat oil to 350°F (175°C) for deep frying.\n\n5. Carefully fry the pork belly until golden brown and crispy, about 8-10 minutes.\n\n6. Drain on paper towels and let rest for 5 minutes.\n\n7. Slice and serve with lechon sauce, liver sauce, or spiced vinegar.",
+    "nutrition": {
+      "calories": 480,
+      "protein": "22g",
+      "carbs": "2g",
+      "fat": "42g",
+      "fiber": "0g",
+      "sodium": "650mg"
+    }
   },
   {
     "name": "Beef Caldereta",
@@ -78,7 +142,15 @@
     "difficulty": "Medium",
     "ingredients": ["beef", "tomato sauce", "tomatoes", "liver spread", "potato", "carrot", "bell pepper", "onion", "garlic", "cheese", "salt"],
     "image": "🍲",
-    "instructions": "1. Sauté garlic and onion. 2. Brown beef. 3. Add tomato sauce and liver spread. 4. Add vegetables and simmer. 5. Add cheese before serving."
+    "instructions": "1. Heat oil in a heavy pot and sauté garlic and onion until fragrant.\n\n2. Add beef cubes and brown on all sides for about 5 minutes.\n\n3. Add chopped tomatoes and cook until soft.\n\n4. Pour in tomato sauce and add liver spread, mix well.\n\n5. Add water and bring to a boil, then simmer covered for 30 minutes.\n\n6. Add potatoes and carrots, cook for 10 minutes.\n\n7. Add bell peppers and cook for 5 more minutes.\n\n8. Season with salt and pepper to taste.\n\n9. Add grated cheese just before serving and stir until melted.",
+    "nutrition": {
+      "calories": 360,
+      "protein": "28g",
+      "carbs": "22g",
+      "fat": "18g",
+      "fiber": "4g",
+      "sodium": "750mg"
+    }
   },
   {
     "name": "Ginataang Hipon",
@@ -87,7 +159,15 @@
     "difficulty": "Easy",
     "ingredients": ["shrimp", "coconut milk", "squash", "string beans", "ginger", "onion", "garlic", "chili"],
     "image": "🦐",
-    "instructions": "1. Sauté ginger, garlic, and onion. 2. Add shrimp and cook. 3. Add coconut milk and vegetables. 4. Simmer until vegetables are tender."
+    "instructions": "1. Heat oil in a pan and sauté sliced ginger, garlic, and onion until fragrant.\n\n2. Add cleaned shrimp and cook until they turn pink, about 2 minutes.\n\n3. Pour in coconut milk and bring to a gentle simmer.\n\n4. Add cubed squash and let cook for 8-10 minutes until tender.\n\n5. Add string beans and sliced chili.\n\n6. Season with salt and fish sauce to taste.\n\n7. Simmer for 3-5 more minutes until vegetables are cooked through.\n\n8. Serve hot with steamed rice.",
+    "nutrition": {
+      "calories": 220,
+      "protein": "18g",
+      "carbs": "12g",
+      "fat": "14g",
+      "fiber": "3g",
+      "sodium": "480mg"
+    }
   },
   {
     "name": "Pinakbet",
@@ -96,7 +176,15 @@
     "difficulty": "Easy",
     "ingredients": ["pork", "squash", "eggplant", "okra", "string beans", "bitter melon", "tomatoes", "onion", "bagoong", "ginger", "garlic"],
     "image": "🥬",
-    "instructions": "1. Sauté ginger, onion, and tomato. 2. Add pork and cook. 3. Layer vegetables and add bagoong. 4. Simmer until vegetables are tender."
+    "instructions": "1. Heat oil and sauté ginger, garlic, onion, and tomatoes until soft.\n\n2. Add pork strips and cook until lightly browned.\n\n3. Add bagoong (shrimp paste) and mix well.\n\n4. Layer the vegetables starting with the hardest ones: squash, eggplant, bitter melon.\n\n5. Add okra and string beans on top.\n\n6. Cover and cook on low heat for 15-20 minutes without stirring.\n\n7. Gently mix once vegetables are tender and serve hot.",
+    "nutrition": {
+      "calories": 200,
+      "protein": "15g",
+      "carbs": "18g",
+      "fat": "8g",
+      "fiber": "6g",
+      "sodium": "920mg"
+    }
   },
   {
     "name": "Chicken Afritada",
@@ -114,7 +202,15 @@
     "difficulty": "Medium",
     "ingredients": ["pork", "chicken liver", "onion", "chili", "calamansi", "soy sauce", "mayonnaise", "egg", "salt", "msg"],
     "image": "🍳",
-    "instructions": "1. Boil and grill pork until crispy. 2. Chop finely with liver. 3. Sauté with onion and chili. 4. Season with calamansi and soy sauce. Top with egg."
+    "instructions": "1. Boil pork belly and ears until tender, about 30 minutes.\n\n2. Grill the boiled pork until charred and crispy on the outside.\n\n3. Boil chicken liver separately until cooked through.\n\n4. Chop all the pork and liver very finely, almost minced.\n\n5. In a hot pan, sauté chopped onions and chili peppers.\n\n6. Add the chopped pork and liver mixture.\n\n7. Season with soy sauce, calamansi juice, salt, and a pinch of MSG.\n\n8. Add mayonnaise for creaminess and mix well.\n\n9. Top with a raw egg and serve sizzling hot on a cast iron plate.",
+    "nutrition": {
+      "calories": 380,
+      "protein": "24g",
+      "carbs": "6g",
+      "fat": "30g",
+      "fiber": "1g",
+      "sodium": "850mg"
+    }
   },
   {
     "name": "Beef Nilaga",
@@ -123,7 +219,15 @@
     "difficulty": "Easy",
     "ingredients": ["beef shanks", "cabbage", "potato", "corn", "string beans", "onion", "black pepper", "fish sauce"],
     "image": "🥣",
-    "instructions": "1. Boil beef with onion and pepper until tender. 2. Add corn and potato. 3. Add cabbage and string beans. 4. Season with fish sauce."
+    "instructions": "1. In a large pot, boil beef shanks with onion and whole black peppercorns for 1-1.5 hours until very tender.\n\n2. Add corn on the cob and quartered potatoes, cook for 15 minutes.\n\n3. Add string beans and cook for 5 more minutes.\n\n4. Add cabbage wedges last and cook for 3-4 minutes until tender.\n\n5. Season with fish sauce and salt to taste.\n\n6. Serve hot in bowls with steamed rice on the side.",
+    "nutrition": {
+      "calories": 320,
+      "protein": "28g",
+      "carbs": "22g",
+      "fat": "14g",
+      "fiber": "4g",
+      "sodium": "680mg"
+    }
   },
   {
     "name": "Pork Menudo",
@@ -132,7 +236,15 @@
     "difficulty": "Easy",
     "ingredients": ["pork", "liver", "potato", "carrot", "tomato sauce", "tomatoes", "bell pepper", "onion", "garlic", "raisins", "soy sauce", "salt"],
     "image": "🍲",
-    "instructions": "1. Sauté garlic and onion. 2. Brown pork and liver. 3. Add tomato sauce and vegetables. 4. Add raisins and simmer until done."
+    "instructions": "1. Heat oil and sauté garlic and onion until fragrant.\n\n2. Add pork cubes and brown on all sides.\n\n3. Add diced liver and cook for 2 minutes.\n\n4. Add chopped tomatoes and cook until soft.\n\n5. Pour in tomato sauce and soy sauce.\n\n6. Add diced potatoes and carrots, simmer for 15 minutes.\n\n7. Add bell peppers and raisins.\n\n8. Season with salt and pepper, simmer until vegetables are tender.\n\n9. Serve hot with steamed rice.",
+    "nutrition": {
+      "calories": 340,
+      "protein": "26g",
+      "carbs": "24g",
+      "fat": "16g",
+      "fiber": "3g",
+      "sodium": "720mg"
+    }
   },
   {
     "name": "Chicken Inasal",
@@ -141,7 +253,15 @@
     "difficulty": "Easy",
     "ingredients": ["chicken_whole_leg", "chicken_thigh", "chicken_whole", "lemongrass", "calamansi", "vinegar", "garlic", "ginger", "annatto oil", "brown sugar", "salt"],
     "image": "🍗",
-    "instructions": "1. Marinate chicken in calamansi, vinegar, lemongrass, and spices. 2. Grill chicken while basting with annatto oil. 3. Serve with rice and atchara."
+    "instructions": "1. Mix calamansi juice, vinegar, minced garlic, ginger, lemongrass, brown sugar, and salt for marinade.\n\n2. Marinate chicken pieces for at least 2 hours or overnight.\n\n3. Prepare annatto oil by heating oil with annatto seeds until orange.\n\n4. Preheat grill to medium-high heat.\n\n5. Grill chicken skin-side down first for 8-10 minutes.\n\n6. Flip and continue grilling, basting frequently with annatto oil.\n\n7. Cook for 25-30 minutes total until internal temperature reaches 165°F.\n\n8. Serve with garlic rice, atchara, and sinamak (spiced vinegar).",
+    "nutrition": {
+      "calories": 310,
+      "protein": "28g",
+      "carbs": "8g",
+      "fat": "18g",
+      "fiber": "1g",
+      "sodium": "720mg"
+    }
   },
   {
     "name": "Laing",
@@ -150,7 +270,15 @@
     "difficulty": "Easy",
     "ingredients": ["taro leaves", "coconut milk", "pork", "shrimp paste", "chili", "ginger", "onion", "garlic"],
     "image": "🍃",
-    "instructions": "1. Sauté ginger, garlic, and onion. 2. Add pork and cook. 3. Add taro leaves and coconut milk. 4. Add shrimp paste and simmer."
+    "instructions": "1. Heat oil and sauté ginger, garlic, and onion until aromatic.\n\n2. Add pork strips and cook until lightly browned.\n\n3. Add dried taro leaves (or fresh if available) to the pan.\n\n4. Pour in coconut milk and bring to a gentle simmer.\n\n5. Add shrimp paste (bagoong) for umami flavor.\n\n6. Add sliced chili peppers for heat.\n\n7. Simmer for 20-25 minutes until taro leaves are tender and creamy.\n\n8. Season with salt and pepper as needed.\n\n9. Serve hot with steamed rice.",
+    "nutrition": {
+      "calories": 260,
+      "protein": "16g",
+      "carbs": "12g",
+      "fat": "18g",
+      "fiber": "4g",
+      "sodium": "580mg"
+    }
   },
   {
     "name": "Dinuguan",
@@ -159,7 +287,15 @@
     "difficulty": "Medium",
     "ingredients": ["pork", "pork blood", "vinegar", "onion", "garlic", "chili", "bay leaves", "fish sauce"],
     "image": "🍲",
-    "instructions": "1. Sauté garlic and onion. 2. Add pork and cook. 3. Add vinegar and simmer. 4. Add pork blood and season. Serve with puto."
+    "instructions": "1. Heat oil and sauté minced garlic and chopped onion until fragrant.\n\n2. Add pork cubes and cook until browned on all sides.\n\n3. Pour in vinegar and let it boil without stirring for 2 minutes.\n\n4. Add bay leaves and chili peppers.\n\n5. Simmer for 20 minutes until pork is tender.\n\n6. Slowly add pork blood while continuously stirring to prevent curdling.\n\n7. Season with fish sauce, salt, and pepper.\n\n8. Continue cooking for 5-10 minutes until thickened.\n\n9. Serve hot with puto (steamed rice cakes) or steamed rice.",
+    "nutrition": {
+      "calories": 280,
+      "protein": "24g",
+      "carbs": "4g",
+      "fat": "18g",
+      "fiber": "1g",
+      "sodium": "720mg"
+    }
   },
   {
     "name": "Tortang Talong",
@@ -168,7 +304,15 @@
     "difficulty": "Easy",
     "ingredients": ["eggplant", "egg", "tomatoes", "onion", "garlic", "salt", "pepper", "oil"],
     "image": "🍆",
-    "instructions": "1. Roast and peel eggplant. 2. Flatten and dip in beaten egg. 3. Fry until golden. 4. Serve with ketchup or vinegar."
+    "instructions": "1. Roast eggplants over open flame or grill until skin is charred and flesh is soft.\n\n2. Let cool, then carefully peel off the charred skin.\n\n3. Gently flatten the eggplant using a fork, keeping the stem intact.\n\n4. Beat eggs in a shallow dish and season with salt and pepper.\n\n5. Heat oil in a pan over medium heat.\n\n6. Dip the flattened eggplant in beaten egg, coating well.\n\n7. Fry until golden brown on both sides, about 2-3 minutes per side.\n\n8. Serve hot with banana ketchup, regular ketchup, or spiced vinegar.",
+    "nutrition": {
+      "calories": 120,
+      "protein": "6g",
+      "carbs": "8g",
+      "fat": "8g",
+      "fiber": "4g",
+      "sodium": "180mg"
+    }
   },
   {
     "name": "Bicol Express",
@@ -177,7 +321,15 @@
     "difficulty": "Easy",
     "ingredients": ["pork", "coconut milk", "shrimp paste", "chili", "ginger", "onion", "garlic"],
     "image": "🌶️",
-    "instructions": "1. Sauté garlic, onion, and ginger. 2. Add pork and cook. 3. Add coconut milk and shrimp paste. 4. Add chili and simmer until thick."
+    "instructions": "1. Heat oil in a pan and sauté garlic, onion, and ginger until fragrant.\n\n2. Add pork strips and cook until lightly browned.\n\n3. Pour in coconut milk and bring to a gentle boil.\n\n4. Add shrimp paste (bagoong) and mix well.\n\n5. Add sliced chili peppers (adjust quantity for desired heat level).\n\n6. Simmer for 15-20 minutes until sauce thickens and pork is tender.\n\n7. Season with salt and pepper if needed.\n\n8. Serve hot with steamed rice.",
+    "nutrition": {
+      "calories": 340,
+      "protein": "20g",
+      "carbs": "8g",
+      "fat": "26g",
+      "fiber": "2g",
+      "sodium": "680mg"
+    }
   },
   {
     "name": "Paksiw na Bangus",
@@ -186,7 +338,15 @@
     "difficulty": "Easy",
     "ingredients": ["milkfish", "bangus", "vinegar", "water", "garlic", "ginger", "onion", "peppercorn", "salt", "eggplant"],
     "image": "🐟",
-    "instructions": "1. Layer bangus, garlic, onion, ginger, and eggplant in a pot. 2. Add vinegar, water, peppercorn, and salt. 3. Simmer covered until fish is cooked and flavors meld."
+    "instructions": "1. Clean and slice bangus (milkfish) into serving pieces.\n\n2. In a pot, layer sliced ginger, garlic, and onion at the bottom.\n\n3. Place fish pieces on top of the aromatics.\n\n4. Add sliced eggplant around the fish.\n\n5. Pour vinegar and water in equal parts (about 1 cup each).\n\n6. Add whole peppercorns and salt to taste.\n\n7. Bring to a boil without stirring, then reduce heat and simmer.\n\n8. Cover and cook for 15-20 minutes until fish is tender and eggplant is cooked.\n\n9. Serve hot with steamed rice.",
+    "nutrition": {
+      "calories": 180,
+      "protein": "22g",
+      "carbs": "8g",
+      "fat": "6g",
+      "fiber": "2g",
+      "sodium": "450mg"
+    }
   },
   {
     "name": "Daing na Bangus",
@@ -195,7 +355,15 @@
     "difficulty": "Easy",
     "ingredients": ["fish", "bangus", "vinegar", "garlic", "pepper", "salt", "oil"],
     "image": "🐟",
-    "instructions": "1. Marinate butterflied bangus in vinegar, garlic, salt, and pepper (overnight if possible). 2. Pat dry and pan-fry until crispy. 3. Serve with rice and vinegar dip."
+    "instructions": "1. Clean and butterfly the bangus, removing the backbone but keeping it whole.\n\n2. Mix vinegar, minced garlic, salt, and cracked black pepper for marinade.\n\n3. Marinate the fish for at least 4 hours, preferably overnight in the refrigerator.\n\n4. Remove from marinade and pat completely dry with paper towels.\n\n5. Heat oil in a large pan over medium heat.\n\n6. Pan-fry the fish skin-side down first until golden and crispy.\n\n7. Flip carefully and fry the other side until crispy.\n\n8. Serve hot with garlic rice and spiced vinegar dip.",
+    "nutrition": {
+      "calories": 200,
+      "protein": "24g",
+      "carbs": "2g",
+      "fat": "10g",
+      "fiber": "0g",
+      "sodium": "520mg"
+    }
   },
   {
     "name": "Escabeche (Sweet and Sour Fish)",
@@ -204,7 +372,15 @@
     "difficulty": "Easy",
     "ingredients": ["fish", "flour", "oil", "bell pepper", "carrot", "ginger", "garlic", "onion", "vinegar", "sugar", "ketchup", "salt", "pepper"],
     "image": "🐟",
-    "instructions": "1. Season and dredge fish in flour, then fry until golden. 2. Stir-fry ginger, garlic, onion, carrot, and bell pepper. 3. Add vinegar, sugar, and ketchup to make sauce. 4. Pour over fish and serve."
+    "instructions": "1. Season fish with salt and pepper, then dredge in flour.\n\n2. Deep fry fish until golden brown and crispy. Set aside.\n\n3. In a pan, heat oil and stir-fry ginger, garlic, and onion.\n\n4. Add julienned carrots and bell peppers, cook for 2 minutes.\n\n5. Mix vinegar, sugar, ketchup, and a little water for the sauce.\n\n6. Pour sauce mixture into the pan and bring to a boil.\n\n7. Let sauce thicken slightly, then season with salt and pepper.\n\n8. Pour the sweet and sour sauce over the fried fish.\n\n9. Serve immediately with steamed rice.",
+    "nutrition": {
+      "calories": 240,
+      "protein": "20g",
+      "carbs": "18g",
+      "fat": "12g",
+      "fiber": "2g",
+      "sodium": "420mg"
+    }
   },
   {
     "name": "Sarciadong Isda",
@@ -213,7 +389,15 @@
     "difficulty": "Easy",
     "ingredients": ["fish", "tomatoes", "onion", "garlic", "egg", "fish sauce", "pepper", "oil", "salt", "ginger"],
     "image": "🐟",
-    "instructions": "1. Fry fish and set aside. 2. Sauté garlic, onion, and tomatoes until soft. 3. Add water and season with fish sauce and pepper. 4. Return fish and pour beaten eggs; simmer briefly until eggs set."
+    "instructions": "1. Season fish with salt and pepper, then fry until golden brown. Set aside.\n\n2. In the same pan, sauté garlic, onion, and ginger until fragrant.\n\n3. Add chopped tomatoes and cook until soft and mushy.\n\n4. Add a little water and season with fish sauce and pepper.\n\n5. Return the fried fish to the pan and simmer for 5 minutes.\n\n6. Beat eggs and slowly pour into the pan while stirring gently.\n\n7. Let the eggs set for 1-2 minutes, then serve hot with rice.",
+    "nutrition": {
+      "calories": 190,
+      "protein": "22g",
+      "carbs": "6g",
+      "fat": "9g",
+      "fiber": "2g",
+      "sodium": "410mg"
+    }
   },
   {
     "name": "Sinigang na Isda",
@@ -222,7 +406,15 @@
     "difficulty": "Easy",
     "ingredients": ["fish", "tamarind", "tomatoes", "onion", "radish", "kangkong", "okra", "eggplant", "fish sauce", "green chili", "ginger", "salt"],
     "image": "🐟",
-    "instructions": "1. Boil tamarind broth with onion and tomato. 2. Add radish, okra, and eggplant. 3. Add fish and simmer gently until cooked. 4. Add kangkong and green chili; season with fish sauce."
+    "instructions": "1. Prepare tamarind broth by boiling tamarind paste or fresh tamarind with water.\n\n2. Add sliced onion, tomatoes, and ginger to the broth.\n\n3. Add radish slices first as they take longer to cook.\n\n4. Add okra and eggplant, cook for 5 minutes.\n\n5. Gently add fish pieces and simmer for 8-10 minutes until cooked.\n\n6. Add kangkong leaves and green chili peppers.\n\n7. Season with fish sauce and salt to taste.\n\n8. Simmer for 2 more minutes and serve hot.",
+    "nutrition": {
+      "calories": 160,
+      "protein": "20g",
+      "carbs": "12g",
+      "fat": "4g",
+      "fiber": "4g",
+      "sodium": "520mg"
+    }
   },
   {
     "name": "Inihaw na Bangus",
@@ -231,6 +423,14 @@
     "difficulty": "Easy",
     "ingredients": ["fish", "bangus", "tomatoes", "onion", "ginger", "calamansi", "salt", "pepper", "banana leaves", "spring onion"],
     "image": "🔥",
-    "instructions": "1. Stuff bangus with chopped tomato, onion, and ginger; season with calamansi, salt, and pepper. 2. Wrap in banana leaves. 3. Grill until fish is cooked and slightly charred."
+    "instructions": "1. Clean bangus and make deep slits on both sides without cutting through.\n\n2. Mix chopped tomatoes, onion, ginger, and spring onion in a bowl.\n\n3. Season the mixture with calamansi juice, salt, and pepper.\n\n4. Stuff the fish cavity and slits with the vegetable mixture.\n\n5. Wrap the stuffed fish in clean banana leaves and secure with toothpicks.\n\n6. Preheat grill to medium heat.\n\n7. Grill for 15-20 minutes per side until fish is cooked and slightly charred.\n\n8. Serve hot with steamed rice and spiced vinegar.",
+    "nutrition": {
+      "calories": 210,
+      "protein": "25g",
+      "carbs": "8g",
+      "fat": "8g",
+      "fiber": "2g",
+      "sodium": "380mg"
+    }
   }
 ]
