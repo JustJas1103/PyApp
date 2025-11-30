@@ -10,25 +10,6 @@
   let isOffline = !navigator.onLine;
   let favorites = new Set();
   
-  // Click sound functionality
-  const clickSound = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBSmBzvTnmkYOEmzA6OGbSAwUYb3v7K9cFhFYtfTnq18cBjeByvHekT8LG2m96Oiof5o=');
-  clickSound.volume = 0.3;
-  
-  function playClickSound() {
-    try {
-      clickSound.currentTime = 0;
-      clickSound.play().catch(e => {}); // Ignore if autoplay blocked
-    } catch(e) {}
-  }
-  
-  // Add global click listener
-  document.addEventListener('click', function(e) {
-    // Only play for interactive elements
-    if (e.target.matches('button, a, .btn, .card, input[type="submit"], [role="button"]')) {
-      playClickSound();
-    }
-  }, true);
-  
   function saveBasket(){ try{ localStorage.setItem(LS_KEY, JSON.stringify(Array.from(basket))); }catch(e){} }
   function loadBasket(){ try{ const arr = JSON.parse(localStorage.getItem(LS_KEY)||'[]'); if(Array.isArray(arr)) arr.forEach(i=> basket.add(String(i).toLowerCase())); }catch(e){} }
   
