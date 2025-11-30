@@ -110,6 +110,35 @@
                             <label class="form-label">Instructions</label>
                             <textarea class="form-control" name="instructions" rows="3" required></textarea>
                         </div>
+                        
+                        <div class="col-12">
+                            <hr>
+                            <h6 class="mb-3">🥗 Nutritional Information (per serving) - Optional</h6>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Calories</label>
+                            <input type="number" class="form-control" name="nutrition_calories" placeholder="320">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Protein</label>
+                            <input type="text" class="form-control" name="nutrition_protein" placeholder="28g">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Carbs</label>
+                            <input type="text" class="form-control" name="nutrition_carbs" placeholder="8g">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Fat</label>
+                            <input type="text" class="form-control" name="nutrition_fat" placeholder="20g">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Fiber</label>
+                            <input type="text" class="form-control" name="nutrition_fiber" placeholder="1g">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Sodium</label>
+                            <input type="text" class="form-control" name="nutrition_sodium" placeholder="1200mg">
+                        </div>
                     </div>
                 </form>
             </div>
@@ -165,6 +194,35 @@
                             <label class="form-label">Instructions</label>
                             <textarea class="form-control" name="instructions" id="editInstructions" rows="3" required></textarea>
                         </div>
+                        
+                        <div class="col-12">
+                            <hr>
+                            <h6 class="mb-3">🥗 Nutritional Information (per serving) - Optional</h6>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Calories</label>
+                            <input type="number" class="form-control" name="nutrition_calories" id="editNutritionCalories" placeholder="320">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Protein</label>
+                            <input type="text" class="form-control" name="nutrition_protein" id="editNutritionProtein" placeholder="28g">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Carbs</label>
+                            <input type="text" class="form-control" name="nutrition_carbs" id="editNutritionCarbs" placeholder="8g">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Fat</label>
+                            <input type="text" class="form-control" name="nutrition_fat" id="editNutritionFat" placeholder="20g">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Fiber</label>
+                            <input type="text" class="form-control" name="nutrition_fiber" id="editNutritionFiber" placeholder="1g">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Sodium</label>
+                            <input type="text" class="form-control" name="nutrition_sodium" id="editNutritionSodium" placeholder="1200mg">
+                        </div>
                     </div>
                 </form>
             </div>
@@ -190,6 +248,25 @@ document.getElementById('saveRecipeBtn').addEventListener('click', async () => {
         ingredients: formData.get('ingredients').split('\n').map(i => i.trim()).filter(i => i),
         instructions: formData.get('instructions')
     };
+    
+    // Add nutrition info if any field is filled
+    const calories = formData.get('nutrition_calories');
+    const protein = formData.get('nutrition_protein');
+    const carbs = formData.get('nutrition_carbs');
+    const fat = formData.get('nutrition_fat');
+    const fiber = formData.get('nutrition_fiber');
+    const sodium = formData.get('nutrition_sodium');
+    
+    if (calories || protein || carbs || fat || fiber || sodium) {
+        data.nutrition = {
+            calories: calories ? parseInt(calories) : null,
+            protein: protein || null,
+            carbs: carbs || null,
+            fat: fat || null,
+            fiber: fiber || null,
+            sodium: sodium || null
+        };
+    }
     
     try {
         const res = await fetch('/admin/recipe/add', {
@@ -223,6 +300,24 @@ document.querySelectorAll('.edit-btn').forEach(btn => {
         document.getElementById('editIngredients').value = recipe.ingredients.join('\n');
         document.getElementById('editInstructions').value = recipe.instructions;
         
+        // Populate nutrition fields if they exist
+        if (recipe.nutrition) {
+            document.getElementById('editNutritionCalories').value = recipe.nutrition.calories || '';
+            document.getElementById('editNutritionProtein').value = recipe.nutrition.protein || '';
+            document.getElementById('editNutritionCarbs').value = recipe.nutrition.carbs || '';
+            document.getElementById('editNutritionFat').value = recipe.nutrition.fat || '';
+            document.getElementById('editNutritionFiber').value = recipe.nutrition.fiber || '';
+            document.getElementById('editNutritionSodium').value = recipe.nutrition.sodium || '';
+        } else {
+            // Clear fields if no nutrition data
+            document.getElementById('editNutritionCalories').value = '';
+            document.getElementById('editNutritionProtein').value = '';
+            document.getElementById('editNutritionCarbs').value = '';
+            document.getElementById('editNutritionFat').value = '';
+            document.getElementById('editNutritionFiber').value = '';
+            document.getElementById('editNutritionSodium').value = '';
+        }
+        
         new bootstrap.Modal(document.getElementById('editRecipeModal')).show();
     });
 });
@@ -240,6 +335,25 @@ document.getElementById('updateRecipeBtn').addEventListener('click', async () =>
         ingredients: formData.get('ingredients').split('\n').map(i => i.trim()).filter(i => i),
         instructions: formData.get('instructions')
     };
+    
+    // Add nutrition info if any field is filled
+    const calories = formData.get('nutrition_calories');
+    const protein = formData.get('nutrition_protein');
+    const carbs = formData.get('nutrition_carbs');
+    const fat = formData.get('nutrition_fat');
+    const fiber = formData.get('nutrition_fiber');
+    const sodium = formData.get('nutrition_sodium');
+    
+    if (calories || protein || carbs || fat || fiber || sodium) {
+        data.nutrition = {
+            calories: calories ? parseInt(calories) : null,
+            protein: protein || null,
+            carbs: carbs || null,
+            fat: fat || null,
+            fiber: fiber || null,
+            sodium: sodium || null
+        };
+    }
     
     try {
         const res = await fetch(`/admin/recipe/edit/${index}`, {
